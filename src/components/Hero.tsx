@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { currentEdition } from "@/lib/edition";
 import { RegisterButton } from "./RegisterButton";
+import { GlassCta } from "./GlassCta";
 
 export function Hero() {
   const poster = currentEdition.assets.poster;
@@ -20,15 +21,7 @@ export function Hero() {
       />
 
       <div className="mx-auto flex w-full max-w-7xl items-start px-5 md:px-8">
-        <div className="max-w-[720px]">
-          <div className="mb-2 flex max-w-[620px] items-center gap-4 text-[#d6ad4e]">
-            <span className="h-px flex-1 bg-[#c99a38]/65" aria-hidden="true" />
-            <p className="shrink-0 text-center text-[11px] font-semibold uppercase tracking-[0.22em]">
-              Elohim&apos;s Bible Study Retreat
-            </p>
-            <span className="h-px flex-1 bg-[#c99a38]/65" aria-hidden="true" />
-          </div>
-
+        <div className="max-w-[720px] pt-[24.5px]">
           <Image
             src={currentEdition.assets.digLogo}
             alt="DIG"
@@ -53,26 +46,29 @@ export function Hero() {
           <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-start">
             <RegisterButton className="[&>a]:w-[210px] [&>span]:hidden" />
             {poster ? (
-              <a
+              <GlassCta
                 href={poster}
-                className="inline-flex min-h-12 w-[210px] items-center justify-center gap-3 border border-[#c99a38]/55 bg-transparent px-6 py-3 text-xs font-semibold uppercase tracking-[0.12em] text-[#fff2dc] transition hover:border-[#d8b35a] hover:bg-[#d8b35a]/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#d6ad4e] focus-visible:ring-offset-2 focus-visible:ring-offset-[#080604]"
+                tone="secondary"
+                className="w-[210px]"
               >
                 <span>View the poster</span>
                 <span aria-hidden="true" className="text-[#d6ad4e]">
                   &rarr;
                 </span>
-              </a>
+              </GlassCta>
             ) : (
-              <button
+              <GlassCta
                 type="button"
-                className="inline-flex min-h-12 w-[210px] cursor-not-allowed items-center justify-center gap-3 border border-[#c99a38]/55 bg-transparent px-6 py-3 text-xs font-semibold uppercase tracking-[0.12em] text-[#fff2dc]/80"
+                tone="secondary"
+                className="w-[210px] cursor-not-allowed"
+                aria-disabled="true"
                 aria-label="View the poster, coming soon"
               >
                 <span>View the poster</span>
                 <span aria-hidden="true" className="text-[#d6ad4e]">
                   &rarr;
                 </span>
-              </button>
+              </GlassCta>
             )}
           </div>
 

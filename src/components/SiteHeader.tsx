@@ -11,23 +11,33 @@ export function SiteHeader() {
   return (
     <header className="absolute inset-x-0 top-0 z-30 border-b border-white/10 bg-black/20 backdrop-blur-sm">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3 md:px-8">
-        <a
-          href="#home"
-          aria-label="Elohim's Bible Study Retreat home"
-          className="relative h-[88px] w-[156px] shrink-0 overflow-hidden md:h-[96px] md:w-[170px]"
-        >
-          <Image
-            src={currentEdition.assets.elohimsLogo}
-            alt="Elohim's"
-            width={1080}
-            height={1080}
-            priority
-            sizes="(min-width: 768px) 132px, 122px"
-            className="absolute left-[-7px] top-[-28px] size-[122px] max-w-none md:left-[-8px] md:top-[-30px] md:size-[132px]"
-          />
-        </a>
+        <div className="flex min-w-0 items-center gap-3 md:gap-4">
+          <a
+            href="#home"
+            aria-label="Elohim's Bible Study Retreat home"
+            className="relative h-[88px] w-[112px] shrink-0 overflow-hidden md:h-[96px] md:w-[122px]"
+          >
+            <Image
+              src={currentEdition.assets.elohimsLogo}
+              alt="Elohim's"
+              width={1080}
+              height={1080}
+              priority
+              sizes="(min-width: 768px) 132px, 122px"
+              className="absolute left-[-7px] top-[-28px] size-[122px] max-w-none md:left-[-8px] md:top-[-30px] md:size-[132px]"
+            />
+          </a>
+          <div className="border-l border-[#c99a38]/50 pl-3 md:pl-4">
+            <p className="text-[10px] font-semibold uppercase leading-relaxed tracking-[0.08em] text-[#f5e7cf] sm:text-xs">
+              Bible Study Retreat
+            </p>
+            <p className="mt-1 text-[9px] uppercase tracking-[0.12em] text-[#b89958] sm:text-[10px]">
+              2026 Edition
+            </p>
+          </div>
+        </div>
 
-        <nav className="hidden items-center gap-7 lg:flex" aria-label="Primary">
+        <nav className="hidden items-center gap-5 lg:flex xl:gap-7" aria-label="Primary">
           {currentEdition.navItems.map((item) => (
             <a
               key={item.href}
