@@ -32,12 +32,13 @@ export function Hero() {
             className="mb-3 h-auto w-[min(760px,calc((100vh-330px)*1.486),92vw)] max-w-none -translate-x-[12.4%]"
           />
 
-          <div className="mb-4 flex flex-col gap-2 text-sm text-[#f5e7cf] sm:flex-row sm:items-center sm:gap-8">
-            <p className="inline-flex items-center gap-3">
+          {/* Compensate for the PNG's lower transparent padding without moving DIG. */}
+          <div className="-mt-[min(92px,calc((100vh-330px)*0.18),11vw)] mb-6 flex flex-col gap-2 text-[15px] leading-6 text-[#f5e7cf] sm:flex-row sm:items-center sm:gap-7 md:text-base">
+            <p className="inline-flex items-center gap-2.5 whitespace-nowrap">
               <CalendarIcon />
               <span>{currentEdition.dates}</span>
             </p>
-            <p className="inline-flex items-center gap-3">
+            <p className="inline-flex items-center gap-2.5 whitespace-nowrap">
               <LocationIcon />
               <span>{currentEdition.location}</span>
             </p>
@@ -72,7 +73,7 @@ export function Hero() {
             )}
           </div>
 
-          <p className="mt-3 inline-flex items-center gap-3 text-sm text-[#d6ad4e]">
+          <p className="mt-[14px] inline-flex items-center gap-3 text-sm text-[#d6ad4e]">
             <span className="size-1.5 rounded-full bg-[#d6ad4e]" aria-hidden="true" />
             <span>{currentEdition.registrationNote}</span>
           </p>
