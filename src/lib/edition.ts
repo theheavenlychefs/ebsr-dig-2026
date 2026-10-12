@@ -13,7 +13,7 @@ export const currentEdition = {
     heroBackground: "/assets/hero-background.png",
     digLogo: "/assets/dig-logo.png",
     elohimsLogo: "/assets/elohims-logo.png",
-    poster: null,
+    poster: "/assets/dig-2026-poster.png",
   },
   navItems: [
     { label: "The Retreat", href: "#retreat" },

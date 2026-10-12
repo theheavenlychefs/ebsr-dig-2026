@@ -1,14 +1,48 @@
+"use client";
+
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { currentEdition } from "@/lib/edition";
 import { RegisterButton } from "./RegisterButton";
 import { GlassCta } from "./GlassCta";
 
 export function Hero() {
   const poster = currentEdition.assets.poster;
+  const [isPosterOpen, setIsPosterOpen] = useState(false);
+  const [isPosterEnlarged, setIsPosterEnlarged] = useState(false);
+  const [posterPortalReady, setPosterPortalReady] = useState(false);
+  const posterDialogRef = useRef<HTMLDialogElement>(null);
+  const posterTriggerRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => setPosterPortalReady(true), []);
+
+  useEffect(() => {
+    if (!isPosterOpen || !posterPortalReady) return;
+    const root = document.documentElement;
+    const body = document.body;
+    const previousRootOverflow = root.style.overflow;
+    const previousBodyOverflow = body.style.overflow;
+    const previousPadding = body.style.paddingRight;
+    const scrollbarWidth = window.innerWidth - root.clientWidth;
+    if (scrollbarWidth > 0) {
+      body.style.paddingRight = `${parseFloat(getComputedStyle(body).paddingRight) + scrollbarWidth}px`;
+    }
+    root.style.overflow = "hidden";
+    body.style.overflow = "hidden";
+    posterDialogRef.current?.showModal();
+    return () => {
+      root.style.overflow = previousRootOverflow;
+      body.style.overflow = previousBodyOverflow;
+      body.style.paddingRight = previousPadding;
+      posterTriggerRef.current?.focus({ preventScroll: true });
+    };
+  }, [isPosterOpen, posterPortalReady]);
 
   return (
     <section
       id="home"
+      data-poster-open={isPosterOpen}
       className="dig-hero relative isolate flex min-h-dvh overflow-hidden bg-[#080604] pb-6 pt-[clamp(5.75rem,13vh,8rem)]"
     >
       <Image
@@ -21,7 +55,11 @@ export function Hero() {
       />
 
       <div className="mx-auto flex w-full max-w-7xl items-start px-5 md:px-8">
-        <div className="dig-hero-content max-w-[720px] pt-[24.5px]">
+        <div
+          className="dig-hero-content max-w-[720px] pt-[24.5px]"
+          inert={isPosterOpen}
+          aria-hidden={isPosterOpen}
+        >
           <Image
             src={currentEdition.assets.digLogo}
             alt="DIG"
@@ -48,9 +86,15 @@ export function Hero() {
             <RegisterButton className="[&>a]:w-[210px] [&>span]:hidden" />
             {poster ? (
               <GlassCta
-                href={poster}
+                ref={posterTriggerRef}
+                type="button"
+                aria-haspopup="dialog"
+                aria-controls="dig-poster-dialog"
+                onClick={() => {
+                  setIsPosterOpen(true);
+                }}
                 tone="secondary"
-                className="w-[210px]"
+                className="w-[210px] cursor-pointer"
               >
                 <span>View the poster</span>
                 <span aria-hidden="true" className="glass-cta-arrow text-[#d6ad4e]">
@@ -80,6 +124,64 @@ export function Hero() {
           </p>
         </div>
       </div>
+
+      {poster && posterPortalReady && createPortal(
+        <dialog
+          ref={posterDialogRef}
+          id="dig-poster-dialog"
+          className="poster-dialog"
+          aria-label="Official DIG 2026 promotional poster"
+          onKeyDown={(event) => {
+            if (event.key !== "Tab") return;
+            const controls = event.currentTarget.querySelectorAll<HTMLButtonElement>("button:not([disabled])");
+            const first = controls[0];
+            const last = controls[controls.length - 1];
+            if (event.shiftKey && document.activeElement === first) {
+              event.preventDefault();
+              last?.focus();
+            } else if (!event.shiftKey && document.activeElement === last) {
+              event.preventDefault();
+              first?.focus();
+            }
+          }}
+          onClose={() => {
+            setIsPosterOpen(false);
+            setIsPosterEnlarged(false);
+          }}
+        >
+          <div className="poster-toolbar">
+            <button
+              type="button"
+              className="poster-close"
+              aria-label="Close poster"
+              autoFocus
+              onClick={() => posterDialogRef.current?.close()}
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div className="poster-stage">
+            <button
+              type="button"
+              className="poster-artwork"
+              data-enlarged={isPosterEnlarged}
+              aria-label={isPosterEnlarged ? "Restore poster size" : "Enlarge poster"}
+              aria-pressed={isPosterEnlarged}
+              onClick={() => setIsPosterEnlarged((value) => !value)}
+            >
+              <Image
+                src={poster}
+                loading="eager"
+                alt="Official DIG 2026 Bible Study Retreat poster, 16 to 20 December 2026"
+                fill
+                sizes="(max-width: 767px) calc(100vw - 56px), 468px"
+                className="poster-image"
+              />
+            </button>
+          </div>
+        </dialog>,
+        document.body
+      )}
     </section>
   );
 }
