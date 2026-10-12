@@ -8,7 +8,7 @@ export function Hero() {
   return (
     <section
       id="home"
-      className="relative isolate flex min-h-screen overflow-hidden bg-[#080604] pt-32"
+      className="relative isolate flex min-h-dvh overflow-hidden bg-[#080604] pb-6 pt-[clamp(5.75rem,13vh,8rem)]"
     >
       <Image
         src={currentEdition.assets.heroBackground}
@@ -19,9 +19,9 @@ export function Hero() {
         className="z-[-1] object-cover object-[64%_center] md:object-[72%_center]"
       />
 
-      <div className="mx-auto flex w-full max-w-7xl items-center px-5 pb-12 pt-8 md:px-8">
+      <div className="mx-auto flex w-full max-w-7xl items-start px-5 md:px-8">
         <div className="max-w-[720px]">
-          <div className="mb-4 flex max-w-[620px] items-center gap-4 text-[#d6ad4e]">
+          <div className="mb-2 flex max-w-[620px] items-center gap-4 text-[#d6ad4e]">
             <span className="h-px flex-1 bg-[#c99a38]/65" aria-hidden="true" />
             <p className="shrink-0 text-center text-[11px] font-semibold uppercase tracking-[0.22em]">
               Elohim&apos;s Bible Study Retreat
@@ -35,11 +35,11 @@ export function Hero() {
             width={1254}
             height={705}
             priority
-            sizes="(min-width: 768px) 760px, 92vw"
-            className="mb-4 h-auto w-full max-w-[760px]"
+            sizes="(min-width: 768px) min(760px, calc((100vh - 330px) * 1.486)), 92vw"
+            className="mb-3 h-auto w-[min(760px,calc((100vh-330px)*1.486),92vw)] max-w-none -translate-x-[12.4%]"
           />
 
-          <div className="mb-6 flex flex-col gap-3 text-sm text-[#f5e7cf] sm:flex-row sm:items-center sm:gap-8">
+          <div className="mb-4 flex flex-col gap-2 text-sm text-[#f5e7cf] sm:flex-row sm:items-center sm:gap-8">
             <p className="inline-flex items-center gap-3">
               <CalendarIcon />
               <span>{currentEdition.dates}</span>
@@ -51,7 +51,7 @@ export function Hero() {
           </div>
 
           <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-start">
-            <RegisterButton className="[&>a]:w-[210px]" />
+            <RegisterButton className="[&>a]:w-[210px] [&>span]:hidden" />
             {poster ? (
               <a
                 href={poster}
@@ -59,7 +59,7 @@ export function Hero() {
               >
                 <span>View the poster</span>
                 <span aria-hidden="true" className="text-[#d6ad4e]">
-                  →
+                  &rarr;
                 </span>
               </a>
             ) : (
@@ -70,13 +70,13 @@ export function Hero() {
               >
                 <span>View the poster</span>
                 <span aria-hidden="true" className="text-[#d6ad4e]">
-                  →
+                  &rarr;
                 </span>
               </button>
             )}
           </div>
 
-          <p className="mt-4 inline-flex items-center gap-3 text-sm text-[#d6ad4e]">
+          <p className="mt-3 inline-flex items-center gap-3 text-sm text-[#d6ad4e]">
             <span className="size-1.5 rounded-full bg-[#d6ad4e]" aria-hidden="true" />
             <span>{currentEdition.registrationNote}</span>
           </p>

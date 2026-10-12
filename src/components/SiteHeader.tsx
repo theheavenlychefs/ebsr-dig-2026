@@ -14,15 +14,16 @@ export function SiteHeader() {
         <a
           href="#home"
           aria-label="Elohim's Bible Study Retreat home"
-          className="relative h-20 w-60 shrink-0 md:h-[90px] md:w-[269px]"
+          className="relative h-[88px] w-[156px] shrink-0 overflow-hidden md:h-[96px] md:w-[170px]"
         >
           <Image
             src={currentEdition.assets.elohimsLogo}
             alt="Elohim's"
-            fill
+            width={1080}
+            height={1080}
             priority
-            sizes="(min-width: 768px) 269px, 240px"
-            className="object-contain object-left"
+            sizes="(min-width: 768px) 132px, 122px"
+            className="absolute left-[-7px] top-[-28px] size-[122px] max-w-none md:left-[-8px] md:top-[-30px] md:size-[132px]"
           />
         </a>
 

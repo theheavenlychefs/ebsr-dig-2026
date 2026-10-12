@@ -41,7 +41,7 @@ export function RegisterButton({
       >
         <span>{label}</span>
         <span aria-hidden="true" className="text-[#d6ad4e]">
-          →
+          &rarr;
         </span>
       </a>
       <span
