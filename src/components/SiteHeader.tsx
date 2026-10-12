@@ -10,38 +10,42 @@ export function SiteHeader() {
 
   return (
     <header className="absolute inset-x-0 top-0 z-30 border-b border-white/10 bg-black/20 backdrop-blur-sm">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-8">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3 md:px-8">
         <a
           href="#home"
           aria-label="Elohim's Bible Study Retreat home"
-          className="relative h-16 w-48 shrink-0 md:h-[77px] md:w-[230px]"
+          className="relative h-20 w-60 shrink-0 md:h-[90px] md:w-[269px]"
         >
           <Image
             src={currentEdition.assets.elohimsLogo}
             alt="Elohim's"
             fill
             priority
-            sizes="(min-width: 768px) 230px, 192px"
+            sizes="(min-width: 768px) 269px, 240px"
             className="object-contain object-left"
           />
         </a>
 
-        <nav className="hidden items-center gap-8 lg:flex" aria-label="Primary">
+        <nav className="hidden items-center gap-7 lg:flex" aria-label="Primary">
           {currentEdition.navItems.map((item) => (
             <a
               key={item.href}
               href={item.href}
-              className="text-xs font-semibold uppercase tracking-[0.18em] text-[#f1e4cd]/82 transition hover:text-[#d8b35a]"
+              className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#f5e7cf]/86 transition hover:text-[#d8b35a]"
             >
               {item.label}
             </a>
           ))}
-          <RegisterButton variant="quiet" className="[&>span]:hidden" />
+          <RegisterButton
+            label="Register for DIG"
+            variant="quiet"
+            className="[&>a]:min-h-11 [&>a]:px-5 [&>span]:hidden"
+          />
         </nav>
 
         <button
           type="button"
-          className="inline-flex min-h-11 items-center justify-center border border-[#c89a2c]/40 px-4 text-xs font-semibold uppercase tracking-[0.18em] text-[#f7ead2] lg:hidden"
+          className="inline-flex min-h-11 items-center justify-center border border-[#c89a2c]/40 bg-black/15 px-4 text-xs font-semibold uppercase tracking-[0.16em] text-[#f7ead2] lg:hidden"
           aria-expanded={isOpen}
           aria-controls="mobile-menu"
           onClick={() => setIsOpen((value) => !value)}
@@ -69,7 +73,7 @@ export function SiteHeader() {
               {item.label}
             </a>
           ))}
-          <RegisterButton variant="quiet" />
+          <RegisterButton label="Register for DIG" variant="quiet" />
         </nav>
       </div>
     </header>
