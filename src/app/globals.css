@@ -223,22 +223,24 @@ a {
 
 .dig-hero-content { transition: opacity 220ms ease; }
 .dig-hero { overflow: clip; }
+.dig-hero-background { filter: blur(0); transition: filter 300ms ease; }
+.dig-hero[data-poster-open="true"] .dig-hero-background { filter: blur(4px); }
 .dig-hero[data-poster-open="true"] .dig-hero-content {
   opacity: 0;
   pointer-events: none;
 }
 
 .poster-dialog {
-  --poster-top: clamp(132px, 15vh, 160px);
+  --poster-top: clamp(128px, 14vh, 152px);
   position: fixed;
   top: var(--poster-top);
   left: max(32px, calc((100vw - 1280px) / 2 + 32px));
-  width: min(42vw, 500px);
-  height: calc(100dvh - var(--poster-top) - 24px);
+  width: min(46vw, 560px, calc((100dvh - var(--poster-top) - 76px) * 1241 / 1728 + 16px));
+  height: calc(100dvh - var(--poster-top) - 16px);
   max-width: none;
   max-height: none;
   margin: 0;
-  padding: 12px 16px 16px;
+  padding: 52px 8px 8px;
   border: 1px solid rgba(201, 154, 56, 0.24);
   border-radius: 6px;
   background: rgba(8, 6, 4, 0.28);
@@ -255,10 +257,13 @@ a {
 }
 .poster-dialog::backdrop { background: transparent; backdrop-filter: none; }
 .poster-toolbar {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 2;
   display: flex;
   flex-shrink: 0;
   justify-content: flex-end;
-  margin-bottom: 8px;
 }
 .poster-close {
   display: inline-flex;
@@ -281,13 +286,14 @@ a {
   flex: 1;
   min-height: 0;
   place-items: center;
+  align-items: safe center;
   overflow: auto;
   overscroll-behavior: contain;
 }
 .poster-artwork {
   position: relative;
-  width: 92%;
-  width: min(92cqw, calc(92cqh * 1241 / 1728));
+  width: 95%;
+  width: min(95cqw, calc(95cqh * 1241 / 1728));
   max-width: 100%;
   height: auto;
   aspect-ratio: 1241 / 1728;
@@ -311,15 +317,22 @@ a {
 }
 @media (width < 48rem) {
   .poster-dialog {
-    inset: 12px;
-    width: calc(100vw - 24px);
-    height: calc(100dvh - 24px);
+    --poster-safe-top: max(12px, env(safe-area-inset-top));
+    --poster-safe-bottom: max(12px, env(safe-area-inset-bottom));
+    --poster-safe-left: max(12px, env(safe-area-inset-left));
+    --poster-safe-right: max(12px, env(safe-area-inset-right));
+    inset: var(--poster-safe-top) var(--poster-safe-right) var(--poster-safe-bottom) var(--poster-safe-left);
+    width: calc(100vw - var(--poster-safe-left) - var(--poster-safe-right));
+    height: calc(100dvh - var(--poster-safe-top) - var(--poster-safe-bottom));
     background: rgba(8, 6, 4, 0.72);
   }
+  .poster-artwork { width: 95cqw; }
+  .poster-artwork[data-enlarged="true"] { width: 100cqw; }
 }
 @media (prefers-reduced-motion: reduce) {
   .dig-hero-content,
-  .poster-artwork { transition: none; }
+  .poster-artwork,
+  .dig-hero-background { transition: none; }
   .poster-dialog[open] { animation: none; }
 }
 
@@ -334,7 +347,8 @@ a {
 
   .dig-hero {
     --mobile-wordmark-width: min(430px, 105vw);
-    padding-top: 108px;
+    /* Header + artwork gap, compensating for the PNG's transparent top rows. */
+    padding-top: calc(93px + 60px + clamp(30px, 4dvh, 38px) - var(--mobile-wordmark-width) * 183 / 1241);
     padding-bottom: 24px;
     min-height: 100dvh;
   }

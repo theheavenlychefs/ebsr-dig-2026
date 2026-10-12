@@ -174,7 +174,7 @@ export function Hero() {
                 loading="eager"
                 alt="Official DIG 2026 Bible Study Retreat poster, 16 to 20 December 2026"
                 fill
-                sizes="(max-width: 767px) calc(100vw - 56px), 468px"
+                sizes="(max-width: 767px) calc(100vw - 40px), 544px"
                 className="poster-image"
               />
             </button>
