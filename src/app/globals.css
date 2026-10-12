@@ -51,6 +51,17 @@ a {
   text-wrap: balance;
 }
 
+.dig-hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 20dvh;
+  max-height: 20%;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.04) 25%, rgba(0, 0, 0, 0.14) 60%, rgba(0, 0, 0, 0.4));
+}
+
 .glass-cta {
   position: relative;
   display: inline-flex;
@@ -71,10 +82,24 @@ a {
   text-align: center;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  transition: background-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+  transition: background-color 260ms ease, box-shadow 260ms ease, transform 260ms ease;
 }
 
 .glass-cta-secondary { background: rgba(16, 14, 12, 0.62); }
+
+.glass-cta::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: 5px;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(115deg, transparent 40%, rgba(214, 173, 78, 0.12) 50%, transparent 60%);
+  background-size: 250% 100%;
+}
+
+.glass-cta > span { position: relative; z-index: 1; }
+.glass-cta-arrow { transition: transform 260ms ease; }
 
 .glass-cta-border {
   position: absolute;
@@ -83,6 +108,7 @@ a {
   height: calc(100% + 2px);
   overflow: visible;
   pointer-events: none;
+  z-index: 2;
   fill: none;
   stroke-linecap: round;
 }
@@ -94,7 +120,7 @@ a {
   stroke-dasharray: 6 94;
   animation: cta-reflection 5s linear infinite;
   opacity: 0.65;
-  transition: opacity 180ms ease;
+  transition: opacity 260ms ease;
 }
 
 .glass-cta-glint {
@@ -115,6 +141,12 @@ a {
   to { stroke-dashoffset: -102; }
 }
 
+@keyframes cta-surface-reflection {
+  0% { background-position: 100% 0; opacity: 0; }
+  35% { opacity: 1; }
+  100% { background-position: 0 0; opacity: 0; }
+}
+
 @media (hover: hover) {
   .glass-cta:hover {
     background-color: rgba(117, 24, 29, 0.75);
@@ -124,16 +156,70 @@ a {
   .glass-cta-secondary:hover { background-color: rgba(35, 30, 24, 0.72); }
   .glass-cta:hover .glass-cta-reflection,
   .glass-cta:hover .glass-cta-glint { opacity: 1; }
+  .glass-cta:hover .glass-cta-arrow { transform: translateX(4px); }
+  .glass-cta:hover::before { animation: cta-surface-reflection 650ms ease-out; }
 }
+
+.glass-cta:active,
+.glass-cta[data-pressed="true"] {
+  transform: translateY(0);
+  background-color: rgba(84, 13, 16, 0.64);
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 242, 220, 0.06);
+  transition-duration: 70ms;
+}
+.glass-cta-secondary:active,
+.glass-cta-secondary[data-pressed="true"] { background-color: rgba(12, 10, 9, 0.7); }
+.glass-cta:active .glass-cta-arrow,
+.glass-cta[data-pressed="true"] .glass-cta-arrow { transform: none; transition-duration: 70ms; }
+.glass-cta:active::before,
+.glass-cta[data-pressed="true"]::before { animation: none; opacity: 0; }
 
 .glass-cta:focus-visible { outline: 2px solid #d6ad4e; outline-offset: 4px; }
 
 @media (prefers-reduced-motion: reduce) {
   .glass-cta { transition: none; border-color: #c4a366; }
-  .glass-cta:hover { transform: none; }
-  .glass-cta-reflection,
-  .glass-cta-glint { animation: none; opacity: 0; }
+  .glass-cta:hover,
+  .glass-cta:active,
+  .glass-cta[data-pressed="true"] { transform: none; }
+  .glass-cta-arrow { transition: none; }
+  .glass-cta:hover .glass-cta-arrow { transform: none; }
+  .glass-cta:hover::before { animation: none; }
+  .glass-cta .glass-cta-reflection,
+  .glass-cta .glass-cta-glint,
+  .glass-cta:hover .glass-cta-reflection,
+  .glass-cta:hover .glass-cta-glint { animation: none; opacity: 0; transition: none; }
 }
+
+.registration-status:popover-open {
+  position: fixed;
+  inset: auto 20px 20px auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: fit-content;
+  max-width: calc(100% - 40px);
+  margin: 0;
+  padding: 8px 8px 8px 16px;
+  border: 1px solid rgba(201, 154, 56, 0.55);
+  border-radius: 6px;
+  background: rgba(16, 14, 12, 0.96);
+  color: #fff2dc;
+  font-size: 13px;
+  line-height: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+.registration-status-dismiss {
+  display: inline-flex;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  color: #d6ad4e;
+  font-size: 22px;
+  cursor: pointer;
+}
+.registration-status-dismiss:focus-visible { outline: 2px solid #d6ad4e; outline-offset: -4px; }
 
 @media (width < 48rem) {
   .site-header-bar { padding: 8px 16px; }

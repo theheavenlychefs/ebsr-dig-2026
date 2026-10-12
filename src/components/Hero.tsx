@@ -53,7 +53,7 @@ export function Hero() {
                 className="w-[210px]"
               >
                 <span>View the poster</span>
-                <span aria-hidden="true" className="text-[#d6ad4e]">
+                <span aria-hidden="true" className="glass-cta-arrow text-[#d6ad4e]">
                   &rarr;
                 </span>
               </GlassCta>
@@ -64,9 +64,10 @@ export function Hero() {
                 className="w-[210px] cursor-not-allowed"
                 aria-disabled="true"
                 aria-label="View the poster, coming soon"
+                title="Poster not available yet."
               >
                 <span>View the poster</span>
-                <span aria-hidden="true" className="text-[#d6ad4e]">
+                <span aria-hidden="true" className="glass-cta-arrow text-[#d6ad4e]">
                   &rarr;
                 </span>
               </GlassCta>
