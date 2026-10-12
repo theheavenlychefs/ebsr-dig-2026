@@ -9,7 +9,7 @@ export function Hero() {
   return (
     <section
       id="home"
-      className="relative isolate flex min-h-dvh overflow-hidden bg-[#080604] pb-6 pt-[clamp(5.75rem,13vh,8rem)]"
+      className="dig-hero relative isolate flex min-h-dvh overflow-hidden bg-[#080604] pb-6 pt-[clamp(5.75rem,13vh,8rem)]"
     >
       <Image
         src={currentEdition.assets.heroBackground}
@@ -17,11 +17,11 @@ export function Hero() {
         fill
         priority
         sizes="100vw"
-        className="z-[-1] object-cover object-[64%_center] md:object-[72%_center]"
+        className="dig-hero-background z-[-1] object-cover object-[64%_center] md:object-[72%_center]"
       />
 
       <div className="mx-auto flex w-full max-w-7xl items-start px-5 md:px-8">
-        <div className="max-w-[720px] pt-[24.5px]">
+        <div className="dig-hero-content max-w-[720px] pt-[24.5px]">
           <Image
             src={currentEdition.assets.digLogo}
             alt="DIG"
@@ -29,11 +29,11 @@ export function Hero() {
             height={705}
             priority
             sizes="(min-width: 768px) min(760px, calc((100vh - 330px) * 1.486)), 92vw"
-            className="mb-3 h-auto w-[min(760px,calc((100vh-330px)*1.486),92vw)] max-w-none -translate-x-[12.4%]"
+            className="dig-wordmark mb-3 h-auto w-[min(760px,calc((100vh-330px)*1.486),92vw)] max-w-none -translate-x-[12.4%]"
           />
 
           {/* Compensate for the PNG's lower transparent padding without moving DIG. */}
-          <div className="-mt-[min(92px,calc((100vh-330px)*0.18),11vw)] mb-6 flex flex-col gap-2 text-[15px] leading-6 text-[#f5e7cf] sm:flex-row sm:items-center sm:gap-7 md:text-base">
+          <div className="dig-event-details -mt-[min(92px,calc((100vh-330px)*0.18),11vw)] mb-6 flex flex-col gap-2 text-[15px] leading-6 text-[#f5e7cf] sm:flex-row sm:items-center sm:gap-7 md:text-base">
             <p className="inline-flex items-center gap-2.5 whitespace-nowrap">
               <CalendarIcon />
               <span>{currentEdition.dates}</span>
@@ -44,7 +44,7 @@ export function Hero() {
             </p>
           </div>
 
-          <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-start">
+          <div className="dig-hero-actions flex flex-col items-start gap-3 sm:flex-row sm:items-start">
             <RegisterButton className="[&>a]:w-[210px] [&>span]:hidden" />
             {poster ? (
               <GlassCta
@@ -73,7 +73,7 @@ export function Hero() {
             )}
           </div>
 
-          <p className="mt-[14px] inline-flex items-center gap-3 text-sm text-[#d6ad4e]">
+          <p className="dig-registration-note mt-[14px] inline-flex items-center gap-3 text-sm text-[#d6ad4e]">
             <span className="size-1.5 rounded-full bg-[#d6ad4e]" aria-hidden="true" />
             <span>{currentEdition.registrationNote}</span>
           </p>

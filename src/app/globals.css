@@ -134,3 +134,60 @@ a {
   .glass-cta-reflection,
   .glass-cta-glint { animation: none; opacity: 0; }
 }
+
+@media (width < 48rem) {
+  .site-header-bar { padding: 8px 16px; }
+  .site-brand { gap: 8px; }
+  .site-brand-logo { width: 104px; height: 76px; }
+  .site-brand-mark { width: 112px; height: 112px; left: -6px; top: -25px; }
+  .site-brand-identity { padding-left: 10px; }
+  .site-brand-identity p { white-space: nowrap; }
+  .site-menu-toggle { flex-shrink: 0; padding-inline: 10px; letter-spacing: 0.08em; }
+
+  .dig-hero {
+    --mobile-wordmark-width: min(430px, 105vw);
+    padding-top: 108px;
+    padding-bottom: 24px;
+    min-height: 100dvh;
+  }
+  .dig-hero-background {
+    height: 125% !important;
+    object-position: 62% top;
+  }
+  .dig-hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: none;
+    padding-top: 0;
+    text-align: center;
+  }
+  .dig-wordmark {
+    width: var(--mobile-wordmark-width);
+    margin-top: -60px;
+    margin-bottom: 0;
+    /* The substantial artwork spans x=152..1066 in the 1241px PNG. */
+    translate: 0.93% 0;
+  }
+  .dig-event-details {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-top: calc(var(--mobile-wordmark-width) * -0.09);
+    margin-bottom: 24px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 2px 8px rgba(0, 0, 0, 0.65);
+  }
+  .dig-hero-actions {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: min(250px, 100%);
+  }
+  .dig-hero-actions > span,
+  .dig-hero-actions .glass-cta { width: 100%; }
+  .dig-registration-note {
+    justify-content: center;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 2px 8px rgba(0, 0, 0, 0.65);
+  }
+}

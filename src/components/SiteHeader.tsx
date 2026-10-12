@@ -10,12 +10,12 @@ export function SiteHeader() {
 
   return (
     <header className="absolute inset-x-0 top-0 z-30 border-b border-white/10 bg-black/20 backdrop-blur-sm">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-3 md:px-8">
-        <div className="flex min-w-0 items-center gap-3 md:gap-4">
+      <div className="site-header-bar mx-auto flex max-w-7xl items-center justify-between px-5 py-3 md:px-8">
+        <div className="site-brand flex min-w-0 items-center gap-3 md:gap-4">
           <a
             href="#home"
             aria-label="Elohim's Bible Study Retreat home"
-            className="relative h-[88px] w-[112px] shrink-0 overflow-hidden md:h-[96px] md:w-[122px]"
+            className="site-brand-logo relative h-[88px] w-[112px] shrink-0 overflow-hidden md:h-[96px] md:w-[122px]"
           >
             <Image
               src={currentEdition.assets.elohimsLogo}
@@ -24,10 +24,10 @@ export function SiteHeader() {
               height={1080}
               priority
               sizes="(min-width: 768px) 132px, 122px"
-              className="absolute left-[-7px] top-[-28px] size-[122px] max-w-none md:left-[-8px] md:top-[-30px] md:size-[132px]"
+              className="site-brand-mark absolute left-[-7px] top-[-28px] size-[122px] max-w-none md:left-[-8px] md:top-[-30px] md:size-[132px]"
             />
           </a>
-          <div className="border-l border-[#c99a38]/50 pl-3 md:pl-4">
+          <div className="site-brand-identity border-l border-[#c99a38]/50 pl-3 md:pl-4">
             <p className="text-[10px] font-semibold uppercase leading-relaxed tracking-[0.08em] text-[#f5e7cf] sm:text-xs">
               Bible Study Retreat
             </p>
@@ -56,7 +56,7 @@ export function SiteHeader() {
 
         <button
           type="button"
-          className="inline-flex min-h-11 items-center justify-center border border-[#c89a2c]/40 bg-black/15 px-4 text-xs font-semibold uppercase tracking-[0.16em] text-[#f7ead2] lg:hidden"
+          className="site-menu-toggle inline-flex min-h-11 items-center justify-center border border-[#c89a2c]/40 bg-black/15 px-4 text-xs font-semibold uppercase tracking-[0.16em] text-[#f7ead2] lg:hidden"
           aria-expanded={isOpen}
           aria-controls="mobile-menu"
           onClick={() => setIsOpen((value) => !value)}
