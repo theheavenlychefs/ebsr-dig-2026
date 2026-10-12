@@ -16,24 +16,22 @@ export function Hero() {
         fill
         priority
         sizes="100vw"
-        className="z-[-3] object-cover object-[64%_center] md:object-[72%_center]"
+        className="z-[-1] object-cover object-[64%_center] md:object-[72%_center]"
       />
-      <div className="absolute inset-0 z-[-2] bg-[linear-gradient(90deg,rgba(0,0,0,0.96)_0%,rgba(0,0,0,0.82)_32%,rgba(0,0,0,0.24)_70%,rgba(0,0,0,0.08)_100%)]" />
-      <div className="absolute inset-0 z-[-1] bg-[linear-gradient(180deg,rgba(8,6,4,0.1)_0%,rgba(8,6,4,0.12)_70%,rgba(8,6,4,1)_100%)]" />
 
       <div className="mx-auto flex w-full max-w-7xl items-center px-5 pb-16 pt-10 md:px-8">
-        <div className="max-w-xl">
+        <div className="max-w-2xl">
           <p className="mb-8 text-xs font-semibold uppercase tracking-[0.32em] text-[#d6ad4e] md:text-sm">
             Elohim&apos;s Bible Study Retreat
           </p>
 
-          <div className="relative mb-8 h-28 w-full max-w-[430px] md:h-36 md:max-w-[540px]">
+          <div className="relative mb-8 h-40 w-full max-w-[620px] md:h-52 md:max-w-[780px]">
             <Image
               src={currentEdition.assets.digLogo}
               alt="DIG"
               fill
               priority
-              sizes="(min-width: 768px) 540px, 90vw"
+              sizes="(min-width: 768px) 780px, 90vw"
               className="object-contain object-left"
             />
           </div>
