@@ -141,7 +141,7 @@ a {
   width: 100%;
 }
 @media (width >= 64rem) {
-  .retreat-photography { transform: scale(0.9); transform-origin: center; }
+  .retreat-photography { transform: scale(0.85); transform-origin: center; }
 }
 .retreat-media-stage { position: relative; isolation: isolate; }
 .retreat-media-light { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
