@@ -349,11 +349,13 @@ a {
 
   .dig-hero {
     --mobile-wordmark-width: min(430px, 105vw);
+    --mobile-details-offset: 20px;
     padding-top: 93px;
     padding-bottom: 24px;
     min-height: 100dvh;
   }
   .dig-hero-background {
+    top: var(--mobile-details-offset) !important;
     height: 125% !important;
     object-position: 62% top;
   }
@@ -392,20 +394,24 @@ a {
     flex-direction: column;
     align-items: center;
     gap: 8px;
-    margin-top: 16px;
+    margin-top: calc(16px + var(--mobile-details-offset));
     margin-bottom: 24px;
+    font-size: 16px;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 2px 8px rgba(0, 0, 0, 0.65);
   }
   .dig-hero-actions {
     flex-direction: column;
     align-items: center;
     gap: 12px;
-    width: min(250px, 100%);
+    width: min(270px, 100%);
   }
   .dig-hero-actions > span,
   .dig-hero-actions .glass-cta { width: 100%; }
+  .dig-hero-actions .glass-cta { min-height: 52px; font-size: 13px; }
+  .dig-event-details svg { width: 18px; height: 18px; }
   .dig-registration-note {
     justify-content: center;
+    font-size: 15px;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 2px 8px rgba(0, 0, 0, 0.65);
   }
 }
