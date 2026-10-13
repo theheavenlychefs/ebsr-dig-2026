@@ -12,6 +12,8 @@ export const currentEdition = {
   assets: {
     heroBackground: "/assets/hero-background.png",
     digLogo: "/assets/dig-logo.png",
+    digAnimation: "/assets/dig-animation.webm",
+    alphaProbe: "/assets/alpha-probe.webm",
     elohimsLogo: "/assets/elohims-logo.png",
     poster: "/assets/dig-2026-poster.png",
   },

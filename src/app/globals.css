@@ -337,6 +337,21 @@ a {
 }
 
 .dig-wordmark-frame { display: contents; }
+.dig-logo-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  pointer-events: none;
+}
+.dig-logo-cycle[data-animated="true"] .dig-logo-static { opacity: 0; }
+.dig-logo-cycle[data-animated="true"] .dig-logo-video { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .dig-logo-cycle .dig-logo-static { opacity: 1 !important; }
+  .dig-logo-cycle .dig-logo-video { opacity: 0 !important; }
+}
 
 @media (width < 48rem) {
   .site-header-bar { padding: 8px 16px; }

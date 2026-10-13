@@ -6,6 +6,7 @@ import { createPortal } from "react-dom";
 import { currentEdition } from "@/lib/edition";
 import { RegisterButton } from "./RegisterButton";
 import { GlassCta } from "./GlassCta";
+import { CyclicAlphaLogo } from "./CyclicAlphaLogo";
 
 export function Hero() {
   const poster = currentEdition.assets.poster;
@@ -61,14 +62,11 @@ export function Hero() {
           aria-hidden={isPosterOpen}
         >
           <div className="dig-wordmark-frame">
-            <Image
-              src={currentEdition.assets.digLogo}
-              alt="DIG"
-              width={1254}
-              height={705}
-              priority
-              sizes="(min-width: 768px) min(760px, calc((100vh - 330px) * 1.486)), 92vw"
-              className="dig-wordmark mb-3 h-auto w-[min(760px,calc((100vh-330px)*1.486),92vw)] max-w-none -translate-x-[12.4%]"
+            <CyclicAlphaLogo
+              image={currentEdition.assets.digLogo}
+              animation={currentEdition.assets.digAnimation}
+              alphaProbe={currentEdition.assets.alphaProbe}
+              active={!isPosterOpen}
             />
           </div>
 
