@@ -77,7 +77,7 @@ a {
   inset: 0;
   background-repeat: repeat;
   background-size: 84px 84px;
-  opacity: 0.075;
+  opacity: 0.02625;
   pointer-events: none;
   user-select: none;
   z-index: 0;
@@ -328,7 +328,7 @@ a {
   .retreat-copy { max-width: 480px; font-size: 16px; line-height: 1.85; }
   .retreat-photography { order: 0; }
   .retreat-photo-pair { margin-inline: auto; }
-  .retreat-watermark { background-size: 72px 72px; opacity: 0.07; }
+  .retreat-watermark { background-size: 72px 72px; opacity: 0.0245; }
   .retreat-light-broad { filter: blur(40px); }
   .retreat-pillars { gap: 10px; }
   .retreat-pillar { gap: 8px; padding: 10px; }
