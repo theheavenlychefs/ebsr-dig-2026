@@ -52,12 +52,27 @@ a {
 }
 
 .retreat-section {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
   scroll-margin-top: 32px;
   padding: 96px 32px 112px;
   background: linear-gradient(to bottom, #000 0, #0d0e0c 180px);
   color: #f0e7da;
 }
-.retreat-inner { max-width: 1216px; margin-inline: auto; }
+.retreat-inner { position: relative; z-index: 1; max-width: 1216px; margin-inline: auto; }
+.retreat-watermark {
+  position: absolute;
+  top: 100px;
+  right: -150px;
+  width: 900px;
+  max-width: none;
+  height: auto;
+  opacity: 0.07;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
 .retreat-eyebrow {
   display: flex;
   align-items: center;
@@ -77,14 +92,14 @@ a {
 }
 .retreat-heading {
   max-width: 1100px;
-  font-family: var(--font-serif), Georgia, serif;
-  font-size: 60px;
-  font-weight: 400;
-  line-height: 1.1;
+  font-family: var(--font-sans), Arial, sans-serif;
+  font-size: 46px;
+  font-weight: 500;
+  line-height: 1.22;
   letter-spacing: 0;
 }
 .retreat-heading span { display: block; }
-.retreat-heading em { color: #d2b18c; font-style: italic; }
+.retreat-heading em { color: #d2b18c; font-style: normal; font-weight: 600; }
 .retreat-editorial {
   display: grid;
   grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
@@ -95,11 +110,11 @@ a {
 .retreat-story { min-width: 0; }
 .retreat-copy {
   max-width: 440px;
-  color: #c6c4b9;
-  font-size: 16px;
-  line-height: 1.85;
+  color: #d4cec1;
+  font-size: 17px;
+  line-height: 1.8;
 }
-.retreat-copy p:first-child { color: #f0e7da; font-size: 18px; }
+.retreat-copy p:first-child { color: #f0e7da; }
 .retreat-copy p + p { margin-top: 28px; }
 .retreat-copy strong { color: #e4d9ca; font-weight: 500; }
 .retreat-copy em { color: #d2b18c; font-style: normal; }
@@ -108,7 +123,7 @@ a {
   width: 100%;
   order: -1;
 }
-.retreat-photo-pair { position: relative; width: 100%; aspect-ratio: 1.36; }
+.retreat-photo-pair { position: relative; width: 100%; aspect-ratio: 1.14; }
 .retreat-study-shot,
 .retreat-fellowship-shot {
   position: absolute;
@@ -118,7 +133,7 @@ a {
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.24);
 }
 .retreat-study-shot { top: 0; left: 0; width: 67%; aspect-ratio: 1; }
-.retreat-fellowship-shot { right: 0; bottom: 24px; width: 38%; aspect-ratio: 3 / 4; }
+.retreat-fellowship-shot { right: 0; bottom: 0; width: 41%; }
 .retreat-photography figcaption {
   display: flex;
   align-items: center;
@@ -131,7 +146,13 @@ a {
   font-size: 11px;
   line-height: 1.5;
 }
-.retreat-film-trigger { flex-shrink: 0; cursor: pointer; }
+.retreat-film-trigger {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  font-size: 10px;
+  cursor: pointer;
+}
 .retreat-film-dialog {
   width: min(420px, calc(100vw - 32px), calc((100dvh - 100px) * 464 / 832));
   max-height: calc(100dvh - 24px);
@@ -169,20 +190,22 @@ a {
 }
 @media (width < 64rem) {
   .retreat-editorial { column-gap: 40px; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); }
-  .retreat-heading { font-size: 52px; }
+  .retreat-heading { font-size: 38px; }
   .retreat-photography figcaption { flex-wrap: wrap; }
 }
 @media (width < 48rem) {
   .retreat-section { scroll-margin-top: 16px; padding: 72px 24px 80px; }
   .retreat-eyebrow { margin-bottom: 28px; }
-  .retreat-heading { font-size: 38px; line-height: 1.12; }
+  .retreat-heading { font-size: 30px; line-height: 1.25; }
   .retreat-editorial { grid-template-columns: minmax(0, 1fr); gap: 44px; margin-top: 36px; }
-  .retreat-copy { max-width: 480px; font-size: 15px; line-height: 1.9; }
-  .retreat-copy p:first-child { font-size: 16px; }
+  .retreat-copy { max-width: 480px; font-size: 16px; line-height: 1.85; }
   .retreat-photography { order: 0; }
-  .retreat-fellowship-shot { bottom: 16px; }
+  .retreat-watermark { top: 300px; right: -180px; width: 640px; opacity: 0.065; }
+  .retreat-photo-pair { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; aspect-ratio: auto; }
+  .retreat-study-shot { position: relative; width: 100%; aspect-ratio: 4 / 3; }
+  .retreat-fellowship-shot { position: relative; width: min(100%, 300px); justify-self: center; right: auto; bottom: auto; }
   .retreat-photography figcaption { gap: 16px; margin-top: 16px; }
-  .retreat-film-trigger { width: 100%; }
+  .retreat-film-trigger { font-size: 11px; }
 }
 
 .dig-hero::after {

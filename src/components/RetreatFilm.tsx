@@ -7,9 +7,27 @@ import { GlassCta } from "./GlassCta";
 export function RetreatFilm() {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const inlineVideoRef = useRef<HTMLVideoElement>(null);
+  const pendingSeekRef = useRef<number | null>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [playbackError, setPlaybackError] = useState(false);
+  const [inlineError, setInlineError] = useState(false);
+
+  useEffect(() => {
+    const inlineVideo = inlineVideoRef.current;
+    const expandedVideo = videoRef.current;
+    const pause = () => {
+      inlineVideo?.pause();
+      expandedVideo?.pause();
+    };
+    const onVisibilityChange = () => { if (document.hidden) pause(); };
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    return () => {
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+      pause();
+    };
+  }, []);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -34,27 +52,76 @@ export function RetreatFilm() {
   function openFilm() {
     const dialog = dialogRef.current;
     const video = videoRef.current;
-    if (!dialog || !video) return;
+    const inlineVideo = inlineVideoRef.current;
+    if (!dialog || !video || !inlineVideo) return;
+    pendingSeekRef.current = inlineVideo.ended ? 0 : inlineVideo.currentTime;
+    video.muted = inlineVideo.muted;
+    video.volume = inlineVideo.volume;
+    video.playbackRate = inlineVideo.playbackRate;
+    inlineVideo.pause();
     setPlaybackError(false);
     dialog.showModal();
     setIsOpen(true);
-    if (video.ended) video.currentTime = 0;
+    if (video.readyState >= 1) seekToInlinePosition();
     // Keep play() inside the user gesture for mobile audio/autoplay policies.
     void video.play().catch(() => { if (dialog.open) setPlaybackError(true); });
   }
 
+  function seekToInlinePosition() {
+    const video = videoRef.current;
+    if (!video || pendingSeekRef.current === null) return;
+    video.currentTime = pendingSeekRef.current;
+    pendingSeekRef.current = null;
+  }
+
+  function closeFilm() {
+    const video = videoRef.current;
+    const inlineVideo = inlineVideoRef.current;
+    video?.pause();
+    if (video && inlineVideo && video.readyState >= 1) {
+      inlineVideo.currentTime = video.currentTime;
+      inlineVideo.muted = video.muted;
+      inlineVideo.volume = video.volume;
+      inlineVideo.playbackRate = video.playbackRate;
+    }
+    pendingSeekRef.current = null;
+    setIsOpen(false);
+  }
+
   return (
-    <>
+    <div className="retreat-fellowship-shot">
+      <video
+        ref={inlineVideoRef}
+        className="retreat-film retreat-inline-film"
+        width={464}
+        height={832}
+        controls
+        playsInline
+        preload="none"
+        poster={currentEdition.assets.retreatFilmPoster}
+        src={currentEdition.assets.retreatFilm}
+        aria-label="EBSR retreat film, inline player"
+        onError={() => setInlineError(true)}
+        onPlaying={() => setInlineError(false)}
+      >
+        <a href={currentEdition.assets.retreatFilm}>Open the retreat film</a>
+      </video>
+      {inlineError && (
+        <p className="retreat-film-error" role="status">
+          Video unavailable. <a href={currentEdition.assets.retreatFilm}>Open the film</a>.
+        </p>
+      )}
       <GlassCta
         ref={triggerRef}
         type="button"
         tone="secondary"
         className="retreat-film-trigger"
+        aria-label="Watch retreat film in expanded mode"
         aria-haspopup="dialog"
         aria-controls="retreat-film-dialog"
         onClick={openFilm}
       >
-        <span>Watch the retreat</span>
+        <span>Expand film</span>
         <span aria-hidden="true" className="glass-cta-arrow">&rarr;</span>
       </GlassCta>
       <dialog
@@ -62,10 +129,7 @@ export function RetreatFilm() {
         id="retreat-film-dialog"
         className="retreat-film-dialog"
         aria-label="Elohim's Bible Study Retreat film"
-        onClose={() => {
-          videoRef.current?.pause();
-          setIsOpen(false);
-        }}
+        onClose={closeFilm}
       >
         <div className="retreat-film-toolbar">
           <span>The Retreat / 00:59</span>
@@ -92,6 +156,7 @@ export function RetreatFilm() {
           aria-label="Retreat fellowship and Bible study footage"
           onError={() => setPlaybackError(true)}
           onPlaying={() => setPlaybackError(false)}
+          onLoadedMetadata={seekToInlinePosition}
         >
           <a href={currentEdition.assets.retreatFilm}>Open the retreat film</a>
         </video>
@@ -101,6 +166,6 @@ export function RetreatFilm() {
           </p>
         )}
       </dialog>
-    </>
+    </div>
   );
 }
