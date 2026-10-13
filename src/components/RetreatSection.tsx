@@ -5,14 +5,10 @@ import { RetreatFilm } from "./RetreatFilm";
 export function RetreatSection() {
   return (
     <section id="retreat" className="retreat-section" aria-labelledby="retreat-heading">
-      <Image
-        src={currentEdition.assets.elohimsLogo}
-        alt=""
+      <div
         aria-hidden="true"
-        width={1080}
-        height={1080}
-        sizes="(min-width: 768px) 900px, 640px"
         className="retreat-watermark"
+        style={{ backgroundImage: `url(${currentEdition.assets.elohimsLogo})` }}
       />
       <div className="retreat-inner">
         <p className="retreat-eyebrow">02 / THE RETREAT</p>
@@ -42,13 +38,15 @@ export function RetreatSection() {
           <figure className="retreat-photography">
             <div className="retreat-photo-pair">
               <div className="retreat-study-shot">
-                <Image
-                  src={currentEdition.assets.retreatStudy}
-                  alt="Retreat participants seated together around tables with open Bibles."
-                  fill
-                  sizes="(min-width: 768px) 460px, 68vw"
-                  className="object-cover object-center"
-                />
+                <div className="retreat-study-image">
+                  <Image
+                    src={currentEdition.assets.retreatStudy}
+                    alt="Retreat participants seated together around tables with open Bibles."
+                    fill
+                    sizes="(min-width: 768px) 460px, 68vw"
+                    className="object-cover object-center"
+                  />
+                </div>
               </div>
               <RetreatFilm />
             </div>
