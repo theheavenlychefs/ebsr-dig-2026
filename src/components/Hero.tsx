@@ -60,15 +60,17 @@ export function Hero() {
           inert={isPosterOpen}
           aria-hidden={isPosterOpen}
         >
-          <Image
-            src={currentEdition.assets.digLogo}
-            alt="DIG"
-            width={1254}
-            height={705}
-            priority
-            sizes="(min-width: 768px) min(760px, calc((100vh - 330px) * 1.486)), 92vw"
-            className="dig-wordmark mb-3 h-auto w-[min(760px,calc((100vh-330px)*1.486),92vw)] max-w-none -translate-x-[12.4%]"
-          />
+          <div className="dig-wordmark-frame">
+            <Image
+              src={currentEdition.assets.digLogo}
+              alt="DIG"
+              width={1254}
+              height={705}
+              priority
+              sizes="(min-width: 768px) min(760px, calc((100vh - 330px) * 1.486)), 92vw"
+              className="dig-wordmark mb-3 h-auto w-[min(760px,calc((100vh-330px)*1.486),92vw)] max-w-none -translate-x-[12.4%]"
+            />
+          </div>
 
           {/* Compensate for the PNG's lower transparent padding without moving DIG. */}
           <div className="dig-event-details -mt-[min(92px,calc((100vh-330px)*0.18),11vw)] mb-6 flex flex-col gap-2 text-[15px] leading-6 text-[#f5e7cf] sm:flex-row sm:items-center sm:gap-7 md:text-base">

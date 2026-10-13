@@ -336,6 +336,8 @@ a {
   .poster-dialog[open] { animation: none; }
 }
 
+.dig-wordmark-frame { display: contents; }
+
 @media (width < 48rem) {
   .site-header-bar { padding: 8px 16px; }
   .site-brand { gap: 8px; }
@@ -347,8 +349,7 @@ a {
 
   .dig-hero {
     --mobile-wordmark-width: min(430px, 105vw);
-    /* Header + artwork gap, compensating for the PNG's transparent top rows. */
-    padding-top: calc(93px + 60px + clamp(30px, 4dvh, 38px) - var(--mobile-wordmark-width) * 183 / 1241);
+    padding-top: 93px;
     padding-bottom: 24px;
     min-height: 100dvh;
   }
@@ -365,18 +366,33 @@ a {
     padding-top: 0;
     text-align: center;
   }
-  .dig-wordmark {
+  .dig-wordmark-frame {
+    display: block;
+    position: relative;
+    flex-shrink: 0;
     width: var(--mobile-wordmark-width);
-    margin-top: -60px;
-    margin-bottom: 0;
+    aspect-ratio: 1241 / 480;
+    overflow: visible;
+    margin-top: 44px;
+  }
+  .dig-wordmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1241 / 835;
+    margin: 0;
+    /* Fit the frame to artwork rows 183..663; preserve the PNG's soft outer pixels. */
+    transform: translate(0.93%, -21.9162%);
     /* The substantial artwork spans x=152..1066 in the 1241px PNG. */
-    translate: 0.93% 0;
+    translate: none !important;
   }
   .dig-event-details {
     flex-direction: column;
     align-items: center;
     gap: 8px;
-    margin-top: calc(var(--mobile-wordmark-width) * -0.09);
+    margin-top: 16px;
     margin-bottom: 24px;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 2px 8px rgba(0, 0, 0, 0.65);
   }
