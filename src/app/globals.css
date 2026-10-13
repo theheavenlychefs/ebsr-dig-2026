@@ -59,7 +59,7 @@ a {
   max-height: 20%;
   z-index: -1;
   pointer-events: none;
-  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.04) 25%, rgba(0, 0, 0, 0.14) 60%, rgba(0, 0, 0, 0.4));
+  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.12) 25%, rgba(0, 0, 0, 0.42) 60%, rgba(0, 0, 0, 1));
 }
 
 .glass-cta {
