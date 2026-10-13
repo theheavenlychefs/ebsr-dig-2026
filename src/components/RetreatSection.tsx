@@ -4,11 +4,10 @@ import { RetreatFilm } from "./RetreatFilm";
 import { RetreatWaves } from "./RetreatWaves";
 import { RetreatReadMore } from "./RetreatReadMore";
 import { retreatStudyContour } from "@/lib/retreat-shape";
-import { RetreatSurface } from "./RetreatSurface";
 
 export function RetreatSection() {
   return (
-    <RetreatSurface>
+    <section id="retreat" className="retreat-section" aria-labelledby="retreat-heading">
       <div
         aria-hidden="true"
         className="retreat-watermark"
@@ -69,6 +68,6 @@ export function RetreatSection() {
           </figure>
         </div>
       </div>
-    </RetreatSurface>
+    </section>
   );
 }
