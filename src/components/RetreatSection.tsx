@@ -1,3 +1,5 @@
+import { currentEdition } from "@/lib/edition";
+
 export function RetreatSection() {
   return (
     <section id="retreat" className="retreat-section" aria-labelledby="retreat-heading">
@@ -27,16 +29,19 @@ export function RetreatSection() {
           </div>
 
           <figure className="retreat-photography">
-            <div
-              className="retreat-photo-placeholder"
-              role="img"
-              aria-label="Photography placeholder. An authentic EBSR Bible study or fellowship photograph has not yet been supplied."
+            <video
+              className="retreat-film"
+              width={464}
+              height={832}
+              controls
+              playsInline
+              preload="none"
+              poster={currentEdition.assets.retreatFilmPoster}
+              src={currentEdition.assets.retreatFilm}
+              aria-label="Elohim's Bible Study Retreat film, fellowship and Bible study"
             >
-              <div className="retreat-photo-label" aria-hidden="true">
-                <span>Retreat photograph</span>
-              </div>
-              <p aria-hidden="true">Photography forthcoming</p>
-            </div>
+              <a href={currentEdition.assets.retreatFilm}>Watch the retreat film</a>
+            </video>
             <figcaption>Elohim&apos;s Bible Study Retreat</figcaption>
           </figure>
         </div>

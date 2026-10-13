@@ -16,6 +16,8 @@ export const currentEdition = {
     alphaProbe: "/assets/alpha-probe.webm",
     elohimsLogo: "/assets/elohims-logo.png",
     poster: "/assets/dig-2026-poster.png",
+    retreatFilm: "/assets/retreat-film.mp4",
+    retreatFilmPoster: "/assets/retreat-film-poster.webp",
   },
   navItems: [
     { label: "The Retreat", href: "#retreat" },

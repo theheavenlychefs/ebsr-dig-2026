@@ -109,37 +109,24 @@ a {
 .retreat-copy p + p { margin-top: 24px; }
 .retreat-copy strong { color: #e4d9ca; font-weight: 500; }
 .retreat-copy em { color: #d2b18c; font-style: normal; }
-.retreat-photography { min-width: 0; margin-top: 8px; }
-.retreat-photo-placeholder {
-  position: relative;
-  display: flex;
+.retreat-photography {
+  min-width: 0;
+  width: min(100%, 400px, calc(72dvh * 464 / 832));
+  justify-self: end;
+  margin-top: 8px;
+}
+.retreat-film {
+  display: block;
   width: 100%;
-  min-height: 560px;
-  aspect-ratio: 3 / 4;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  height: auto;
+  aspect-ratio: 464 / 832;
+  object-fit: contain;
   border: 0;
-  background: #201a14;
+  background: #0a0907;
 }
-.retreat-photo-label {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #b6a38d;
-}
-.retreat-photo-label span:last-child {
-  font-family: var(--font-serif), Georgia, serif;
-  font-size: 25px;
-  font-style: italic;
-  line-height: 1.2;
-}
-.retreat-photo-placeholder > p {
-  position: absolute;
-  inset: auto 24px 24px;
-  color: #ad9580;
-  font-size: 11px;
-  line-height: 1.5;
+.retreat-film:focus-visible {
+  outline: 2px solid #d2b18c;
+  outline-offset: 5px;
 }
 .retreat-photography figcaption {
   margin-top: 20px;
@@ -153,7 +140,6 @@ a {
   .retreat-editorial { column-gap: 40px; grid-template-columns: minmax(0, 8fr) minmax(0, 5fr); }
   .retreat-heading { font-size: 60px; }
   .retreat-heading span:first-child { font-size: 30px; }
-  .retreat-photo-placeholder { min-height: 520px; }
 }
 @media (width < 48rem) {
   .retreat-section { scroll-margin-top: 16px; padding: 72px 24px 80px; }
@@ -163,8 +149,7 @@ a {
   .retreat-editorial { grid-template-columns: minmax(0, 1fr); gap: 40px; }
   .retreat-copy { max-width: 480px; font-size: 15px; line-height: 1.9; }
   .retreat-copy p:first-child { font-size: 16px; }
-  .retreat-photography { margin-top: 0; }
-  .retreat-photo-placeholder { min-height: 280px; aspect-ratio: 6 / 5; }
+  .retreat-photography { width: min(100%, 400px); margin-top: 0; justify-self: center; }
 }
 
 .dig-hero::after {
