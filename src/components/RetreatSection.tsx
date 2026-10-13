@@ -2,6 +2,7 @@ import Image from "next/image";
 import { currentEdition } from "@/lib/edition";
 import { RetreatFilm } from "./RetreatFilm";
 import { RetreatWaves } from "./RetreatWaves";
+import { RetreatReadMore } from "./RetreatReadMore";
 
 export function RetreatSection() {
   return (
@@ -12,13 +13,13 @@ export function RetreatSection() {
         style={{ backgroundImage: `url(${currentEdition.assets.elohimsLogo})` }}
       />
       <div className="retreat-inner">
-        <p className="retreat-eyebrow">02 / THE RETREAT</p>
-        <h2 id="retreat-heading" className="retreat-heading">
-          <span>Not just an audience.</span>
-          <span>A gathering around the <em>Word.</em></span>
-        </h2>
         <div className="retreat-editorial">
           <div className="retreat-story">
+            <p className="retreat-eyebrow">02 / THE RETREAT</p>
+            <h2 id="retreat-heading" className="retreat-heading">
+              <span>Not just an audience.</span>
+              <span>A gathering around the <em>Word.</em></span>
+            </h2>
             <div className="retreat-copy">
               <p>
                 Elohim&apos;s Bible Study Retreat was born from a burden to create
@@ -34,6 +35,7 @@ export function RetreatSection() {
                 fellowship, we gather not merely to listen, but to <em>search the Word together.</em>
               </p>
             </div>
+            <RetreatReadMore />
           </div>
 
           <figure className="retreat-photography">
@@ -52,7 +54,7 @@ export function RetreatSection() {
                     src={currentEdition.assets.retreatStudy}
                     alt="Retreat participants seated together around tables with open Bibles."
                     fill
-                    sizes="(min-width: 768px) 460px, calc(100vw - 48px)"
+                    sizes="(min-width: 1024px) 340px, (min-width: 768px) 460px, calc(100vw - 48px)"
                     className="object-cover object-center"
                   />
                 </div>

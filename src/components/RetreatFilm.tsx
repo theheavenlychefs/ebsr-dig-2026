@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { currentEdition } from "@/lib/edition";
 import { RetreatWaves } from "./RetreatWaves";
+import { Maximize2, Pause, Play, Volume2, VolumeX } from "lucide-react";
+import { GlassCta } from "./GlassCta";
 
 export function RetreatFilm() {
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -145,6 +147,7 @@ export function RetreatFilm() {
       <RetreatWaves />
       <div className="retreat-inline-film-mask">
       <video
+        id="retreat-inline-film"
         ref={inlineVideoRef}
         className="retreat-film retreat-inline-film"
         width={464}
@@ -165,23 +168,25 @@ export function RetreatFilm() {
       </video>
       </div>
       <div className="retreat-inline-controls">
-        <button type="button" onClick={togglePlayback} aria-label={isPlaying ? "Pause retreat film" : "Play retreat film"}>
-          {isPlaying ? "Pause" : "Play"}
-        </button>
-        <button type="button" onClick={toggleSound} aria-label={isMuted ? "Enable retreat film sound" : "Mute retreat film sound"} aria-pressed={!isMuted}>
-          {isMuted ? "Sound on" : "Mute"}
-        </button>
-        <button
+        <GlassCta type="button" onClick={togglePlayback} aria-label={isPlaying ? "Pause retreat film" : "Play retreat film"} title={isPlaying ? "Pause film" : "Play film"}>
+          {isPlaying ? <Pause size={17} aria-hidden="true" /> : <Play size={17} aria-hidden="true" />}
+        </GlassCta>
+        <GlassCta type="button" tone="secondary" onClick={toggleSound} aria-label={isMuted ? "Enable retreat film sound" : "Mute retreat film sound"} aria-pressed={!isMuted} title={isMuted ? "Enable sound" : "Mute sound"}>
+          {isMuted ? <VolumeX size={17} aria-hidden="true" /> : <Volume2 size={17} aria-hidden="true" />}
+        </GlassCta>
+        <GlassCta
           ref={triggerRef}
           type="button"
+          tone="secondary"
           className="retreat-film-trigger"
           aria-label="Watch retreat film in expanded mode"
           aria-haspopup="dialog"
           aria-controls="retreat-film-dialog"
           onClick={openFilm}
+          title="Watch in expanded mode"
         >
-          Expand <span aria-hidden="true">&#8599;</span>
-        </button>
+          <Maximize2 size={17} aria-hidden="true" />
+        </GlassCta>
       </div>
       {inlineError && (
         <p className="retreat-film-error" role="status">
