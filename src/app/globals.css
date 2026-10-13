@@ -359,6 +359,10 @@ a {
     height: 125% !important;
     object-position: 62% top;
   }
+  .dig-hero::after {
+    height: 35dvh;
+    max-height: 35%;
+  }
   .dig-hero-content {
     display: flex;
     flex-direction: column;
