@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { currentEdition } from "@/lib/edition";
+import { RetreatWaves } from "./RetreatWaves";
 
 export function RetreatFilm() {
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -9,21 +10,51 @@ export function RetreatFilm() {
   const inlineVideoRef = useRef<HTMLVideoElement>(null);
   const pendingSeekRef = useRef<number | null>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const wantsPlaybackRef = useRef(true);
+  const inViewRef = useRef(false);
+  const expandedRef = useRef(false);
   const [isOpen, setIsOpen] = useState(false);
   const [playbackError, setPlaybackError] = useState(false);
   const [inlineError, setInlineError] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
 
   useEffect(() => {
     const inlineVideo = inlineVideoRef.current;
     const expandedVideo = videoRef.current;
+    if (!inlineVideo) return;
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    wantsPlaybackRef.current = !motion.matches;
     const pause = () => {
       inlineVideo?.pause();
       expandedVideo?.pause();
     };
-    const onVisibilityChange = () => { if (document.hidden) pause(); };
+    const syncPlayback = () => {
+      if (document.hidden || !inViewRef.current || expandedRef.current || !wantsPlaybackRef.current) {
+        inlineVideo.pause();
+      } else {
+        // Autoplay rejection leaves the real poster and manual Play control available.
+        void inlineVideo.play().catch(() => {});
+      }
+    };
+    const observer = new IntersectionObserver(([entry]) => {
+      inViewRef.current = entry.isIntersecting && entry.intersectionRatio >= 0.15;
+      syncPlayback();
+    }, { threshold: 0.15 });
+    observer.observe(inlineVideo);
+    const onVisibilityChange = () => {
+      if (document.hidden) pause();
+      else syncPlayback();
+    };
+    const onMotionChange = () => {
+      wantsPlaybackRef.current = !motion.matches;
+      syncPlayback();
+    };
     document.addEventListener("visibilitychange", onVisibilityChange);
+    motion.addEventListener("change", onMotionChange);
     return () => {
+      observer.disconnect();
+      motion.removeEventListener("change", onMotionChange);
       document.removeEventListener("visibilitychange", onVisibilityChange);
       pause();
     };
@@ -52,8 +83,16 @@ export function RetreatFilm() {
   function togglePlayback() {
     const video = inlineVideoRef.current;
     if (!video) return;
+    wantsPlaybackRef.current = video.paused;
     if (!video.paused) video.pause();
     else void video.play().catch(() => setInlineError(true));
+  }
+
+  function toggleSound() {
+    const video = inlineVideoRef.current;
+    if (!video) return;
+    video.muted = !video.muted;
+    setIsMuted(video.muted);
   }
 
   function openFilm() {
@@ -65,6 +104,7 @@ export function RetreatFilm() {
     video.muted = inlineVideo.muted;
     video.volume = inlineVideo.volume;
     video.playbackRate = inlineVideo.playbackRate;
+    expandedRef.current = true;
     inlineVideo.pause();
     setPlaybackError(false);
     dialog.showModal();
@@ -90,13 +130,19 @@ export function RetreatFilm() {
       inlineVideo.muted = video.muted;
       inlineVideo.volume = video.volume;
       inlineVideo.playbackRate = video.playbackRate;
+      setIsMuted(video.muted);
     }
     pendingSeekRef.current = null;
+    expandedRef.current = false;
     setIsOpen(false);
+    if (inlineVideo && inViewRef.current && !document.hidden && wantsPlaybackRef.current) {
+      void inlineVideo.play().catch(() => {});
+    }
   }
 
   return (
-    <div className="retreat-fellowship-shot">
+    <div className="retreat-fellowship-shot" data-playing={isPlaying}>
+      <RetreatWaves />
       <div className="retreat-inline-film-mask">
       <video
         ref={inlineVideoRef}
@@ -104,6 +150,8 @@ export function RetreatFilm() {
         width={464}
         height={832}
         playsInline
+        muted
+        loop
         preload="none"
         poster={currentEdition.assets.retreatFilmPoster}
         src={currentEdition.assets.retreatFilm}
@@ -119,6 +167,9 @@ export function RetreatFilm() {
       <div className="retreat-inline-controls">
         <button type="button" onClick={togglePlayback} aria-label={isPlaying ? "Pause retreat film" : "Play retreat film"}>
           {isPlaying ? "Pause" : "Play"}
+        </button>
+        <button type="button" onClick={toggleSound} aria-label={isMuted ? "Enable retreat film sound" : "Mute retreat film sound"} aria-pressed={!isMuted}>
+          {isMuted ? "Sound on" : "Mute"}
         </button>
         <button
           ref={triggerRef}

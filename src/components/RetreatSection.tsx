@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { currentEdition } from "@/lib/edition";
 import { RetreatFilm } from "./RetreatFilm";
+import { RetreatWaves } from "./RetreatWaves";
 
 export function RetreatSection() {
   return (
@@ -36,14 +37,22 @@ export function RetreatSection() {
           </div>
 
           <figure className="retreat-photography">
+            <svg width="0" height="0" aria-hidden="true" focusable="false" className="retreat-shape-definition">
+              <defs>
+                <clipPath id="retreat-study-silhouette" clipPathUnits="objectBoundingBox">
+                  <path d="M .018 .52 C .042 .23 .27 .015 .56 .012 C .81 .008 .98 .16 .986 .39 C 1 .66 .86 .89 .63 .955 C .44 1 .27 .93 .254 .76 C .247 .681 .21 .651 .12 .648 C .035 .645 .004 .611 .018 .52 Z" />
+                </clipPath>
+              </defs>
+            </svg>
             <div className="retreat-photo-pair">
               <div className="retreat-study-shot">
+                <RetreatWaves />
                 <div className="retreat-study-image">
                   <Image
                     src={currentEdition.assets.retreatStudy}
                     alt="Retreat participants seated together around tables with open Bibles."
                     fill
-                  sizes="(min-width: 768px) 460px, calc(100vw - 48px)"
+                    sizes="(min-width: 768px) 460px, calc(100vw - 48px)"
                     className="object-cover object-center"
                   />
                 </div>

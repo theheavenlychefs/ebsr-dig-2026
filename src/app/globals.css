@@ -124,8 +124,8 @@ a {
 .retreat-photo-pair {
   position: relative;
   width: min(100%, 460px);
-  margin-inline: auto;
-  aspect-ratio: 0.60;
+  margin-inline: 0;
+  aspect-ratio: 0.52;
 }
 .retreat-study-shot,
 .retreat-fellowship-shot {
@@ -133,10 +133,41 @@ a {
   min-width: 0;
 }
 .retreat-study-shot { top: 0; left: 0; width: 100%; }
-.retreat-study-image { position: relative; width: 100%; aspect-ratio: 1; border-radius: 50%; overflow: hidden; }
+.retreat-shape-definition { position: absolute; pointer-events: none; }
+.retreat-study-image { position: relative; width: 100%; aspect-ratio: 1; clip-path: url(#retreat-study-silhouette); overflow: hidden; }
 .retreat-study-image img { object-position: center 28%; }
-.retreat-fellowship-shot { top: 27%; left: 12%; width: 58%; }
+.retreat-fellowship-shot { top: 36%; left: 21%; width: 58%; }
 .retreat-inline-film-mask { overflow: hidden; border-radius: 64px; }
+.retreat-waves {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: none;
+  stroke: #bda274;
+  stroke-width: 0.22;
+  pointer-events: none;
+}
+.retreat-waves path {
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0.16;
+  animation: retreat-wave-release 3.6s ease-out infinite;
+  animation-play-state: paused;
+}
+.retreat-waves path:nth-child(2) { animation-delay: -1.2s; }
+.retreat-waves path:nth-child(3) { animation-delay: -2.4s; }
+.retreat-fellowship-shot > .retreat-waves { height: calc(100% - 52px); }
+.retreat-section:has(.retreat-fellowship-shot[data-playing="true"]) .retreat-waves path { animation-play-state: running; }
+@keyframes retreat-wave-release {
+  0% { transform: scaleX(0.98); opacity: 0.05; }
+  30% { opacity: 0.45; }
+  100% { transform: scaleX(1.08); opacity: 0.02; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .retreat-waves path { animation: none; opacity: 0.12; }
+}
 .retreat-photography figcaption {
   display: flex;
   align-items: center;
@@ -153,16 +184,18 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
   margin-top: 8px;
 }
 .retreat-inline-controls button {
+  min-width: 44px;
   min-height: 44px;
-  padding: 8px;
+  padding: 8px 4px;
   border: 0;
   background: transparent;
   color: #d2b18c;
-  font-size: 12px;
+  font-size: 11px;
+  white-space: nowrap;
   cursor: pointer;
 }
 .retreat-inline-controls button:hover { color: #f0e7da; }
@@ -215,6 +248,7 @@ a {
   .retreat-editorial { grid-template-columns: minmax(0, 1fr); gap: 44px; margin-top: 36px; }
   .retreat-copy { max-width: 480px; font-size: 16px; line-height: 1.85; }
   .retreat-photography { order: 0; }
+  .retreat-photo-pair { margin-inline: auto; }
   .retreat-watermark { background-size: 72px 72px; opacity: 0.012; }
   .retreat-inline-film-mask { border-radius: 48px; }
   .retreat-photography figcaption { gap: 16px; margin-top: 16px; }
