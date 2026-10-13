@@ -363,7 +363,7 @@ a {
     align-items: center;
     width: 100%;
     max-width: none;
-    padding-top: clamp(60px, 9dvh, 80px);
+    padding-top: clamp(100px, 15dvh, 140px);
     text-align: center;
   }
   .dig-wordmark-frame {
