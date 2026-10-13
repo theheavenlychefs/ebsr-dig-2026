@@ -51,6 +51,101 @@ a {
   text-wrap: balance;
 }
 
+.retreat-section {
+  scroll-margin-top: 32px;
+  padding: 112px 32px 128px;
+  background: linear-gradient(to bottom, #000 0, #100b08 180px);
+  color: #f0e7da;
+}
+.retreat-inner { max-width: 1216px; margin-inline: auto; }
+.retreat-eyebrow {
+  margin-bottom: 28px;
+  color: #af8d68;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.12em;
+}
+.retreat-heading {
+  max-width: 1000px;
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 64px;
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+.retreat-heading span { display: block; }
+.retreat-editorial {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  align-items: start;
+  column-gap: 80px;
+  margin-top: 64px;
+}
+.retreat-copy {
+  max-width: 440px;
+  color: #c9bfb2;
+  font-size: 16px;
+  line-height: 1.9;
+}
+.retreat-copy p + p { margin-top: 24px; }
+.retreat-photography { min-width: 0; margin-top: -16px; }
+.retreat-photo-placeholder {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-height: 380px;
+  aspect-ratio: 8 / 5;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #473529;
+  background: #1a130e;
+}
+.retreat-photo-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  color: #b59c80;
+}
+.retreat-photo-label span:first-child {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+}
+.retreat-photo-label span:last-child {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 30px;
+  line-height: 1.2;
+}
+.retreat-photo-placeholder > p {
+  position: absolute;
+  inset: auto 24px 24px;
+  color: #ad9580;
+  font-size: 11px;
+  line-height: 1.5;
+}
+.retreat-photography figcaption {
+  margin-top: 16px;
+  color: #af8d68;
+  font-size: 11px;
+  line-height: 1.5;
+}
+@media (width < 64rem) {
+  .retreat-editorial { column-gap: 40px; }
+  .retreat-heading { font-size: 54px; }
+  .retreat-photo-placeholder { min-height: 340px; }
+}
+@media (width < 48rem) {
+  .retreat-section { scroll-margin-top: 16px; padding: 72px 24px 80px; }
+  .retreat-eyebrow { margin-bottom: 24px; }
+  .retreat-heading { font-size: 38px; line-height: 1.12; }
+  .retreat-editorial { grid-template-columns: minmax(0, 1fr); gap: 40px; margin-top: 36px; }
+  .retreat-copy { max-width: 480px; font-size: 15px; line-height: 1.9; }
+  .retreat-photography { margin-top: 0; }
+  .retreat-photo-placeholder { min-height: 280px; aspect-ratio: 6 / 5; }
+}
+
 .dig-hero::after {
   content: "";
   position: absolute;
