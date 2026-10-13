@@ -4,6 +4,7 @@ import { RetreatFilm } from "./RetreatFilm";
 import { RetreatWaves } from "./RetreatWaves";
 import { RetreatReadMore } from "./RetreatReadMore";
 import { retreatStudyContour } from "@/lib/retreat-shape";
+import { RetreatPillars } from "./RetreatPillars";
 
 export function RetreatSection() {
   return (
@@ -47,20 +48,31 @@ export function RetreatSection() {
                 </clipPath>
               </defs>
             </svg>
-            <div className="retreat-photo-pair">
-              <div className="retreat-study-shot">
-                <RetreatWaves shape="study" />
-                <div className="retreat-study-image">
-                  <Image
-                    src={currentEdition.assets.retreatStudy}
-                    alt="Retreat participants seated together around tables with open Bibles."
-                    fill
-                    sizes="(min-width: 1024px) 340px, (min-width: 768px) 460px, calc(100vw - 48px)"
-                    className="object-cover object-center"
-                  />
+            <div className="retreat-media-stage">
+              <div className="retreat-photo-pair">
+                <div className="retreat-media-light" aria-hidden="true">
+                  {["broad", "close"].map((layer) => (
+                    <svg key={layer} className={`retreat-light-${layer}`} viewBox="0 0 100 192.3077" preserveAspectRatio="none" focusable="false">
+                      <path d={retreatStudyContour} transform="scale(100)" />
+                      <rect x="21" y="69.23" width="58" height="104" rx="16" />
+                    </svg>
+                  ))}
                 </div>
+                <div className="retreat-study-shot">
+                  <RetreatWaves shape="study" />
+                  <div className="retreat-study-image">
+                    <Image
+                      src={currentEdition.assets.retreatStudy}
+                      alt="Retreat participants seated together around tables with open Bibles."
+                      fill
+                      sizes="(min-width: 1024px) 340px, (min-width: 768px) 460px, calc(100vw - 48px)"
+                      className="object-cover object-center"
+                    />
+                  </div>
+                </div>
+                <RetreatFilm />
               </div>
-              <RetreatFilm />
+              <RetreatPillars />
             </div>
             <figcaption>
               <span>Elohim&apos;s Bible Study Retreat</span>

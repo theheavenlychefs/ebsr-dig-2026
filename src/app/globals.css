@@ -77,7 +77,7 @@ a {
   inset: 0;
   background-repeat: repeat;
   background-size: 84px 84px;
-  opacity: 0.026;
+  opacity: 0.075;
   pointer-events: none;
   user-select: none;
   z-index: 0;
@@ -140,6 +140,39 @@ a {
   min-width: 0;
   width: 100%;
 }
+.retreat-media-stage { position: relative; isolation: isolate; }
+.retreat-media-light { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.retreat-media-light svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.retreat-light-broad { fill: #d4af37; opacity: 0.4; filter: blur(52px); transform: scale(1.2); }
+.retreat-light-close { fill: #f5d278; opacity: 0.18; filter: blur(24px); transform: scale(1.08); }
+.retreat-pillars { position: absolute; inset: 0; z-index: 3; margin: 0; padding: 0; list-style: none; pointer-events: none; }
+.retreat-pillar {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 78px;
+  padding: 12px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 8px;
+  background: rgba(14, 14, 12, 0.86);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: inset 0 1px 0 rgba(245, 210, 120, 0.08), 0 16px 38px rgba(0, 0, 0, 0.5);
+  animation: retreat-card-drift 7s ease-in-out infinite;
+}
+.retreat-pillar-word { top: 9%; left: -42px; width: 184px; }
+.retreat-pillar-worship { top: 1%; right: -18px; width: 168px; animation-delay: -1.75s; }
+.retreat-pillar-prayer { top: 58%; left: -8px; width: 168px; animation-delay: -3.5s; }
+.retreat-pillar-fellowship { top: 74%; right: -18px; width: 168px; animation-delay: -5.25s; }
+.retreat-pillar-icon { flex: 0 0 32px; display: grid; place-items: center; width: 32px; height: 32px; border: 1px solid rgba(212, 175, 55, 0.28); border-radius: 6px; background: rgba(212, 175, 55, 0.1); color: #e1b950; }
+.retreat-pillar-worship .retreat-pillar-icon { color: #dc9a91; background: rgba(114, 23, 25, 0.24); border-color: rgba(180, 95, 91, 0.38); }
+.retreat-pillar-fellowship .retreat-pillar-icon { color: #8fc4aa; background: rgba(50, 119, 87, 0.15); border-color: rgba(94, 157, 119, 0.32); }
+.retreat-pillar-copy { min-width: 0; }
+.retreat-pillar-eyebrow { color: #a69a83; font-size: 9px; line-height: 1.5; text-transform: uppercase; }
+.retreat-pillar-title { margin-top: 4px; color: #f4eddf; font-size: 12px; font-weight: 600; line-height: 1.45; }
+@keyframes retreat-card-drift { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+@media (prefers-reduced-motion: reduce) { .retreat-pillar { animation: none; } }
 .retreat-read-more { margin-top: 28px; }
 .retreat-read-more .glass-cta {
   background: rgba(96, 28, 33, 0.65);
@@ -281,6 +314,8 @@ a {
   .retreat-photo-pair { width: min(100%, 460px); }
   .retreat-photography figcaption { max-width: 460px; }
   .retreat-photography figcaption { flex-wrap: wrap; }
+  .retreat-pillars { position: relative; inset: auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; max-width: 460px; margin: 24px auto 0; }
+  .retreat-pillar { position: relative; inset: auto; width: auto; min-height: 86px; animation: none; }
 }
 @media (width < 48rem) {
   .retreat-section { scroll-margin-top: 16px; padding: 72px 24px 80px; }
@@ -290,7 +325,11 @@ a {
   .retreat-copy { max-width: 480px; font-size: 16px; line-height: 1.85; }
   .retreat-photography { order: 0; }
   .retreat-photo-pair { margin-inline: auto; }
-  .retreat-watermark { background-size: 72px 72px; opacity: 0.024; }
+  .retreat-watermark { background-size: 72px 72px; opacity: 0.07; }
+  .retreat-light-broad { filter: blur(40px); }
+  .retreat-pillars { gap: 10px; }
+  .retreat-pillar { gap: 8px; padding: 10px; }
+  .retreat-pillar-icon { flex-basis: 28px; width: 28px; height: 28px; }
   .retreat-inline-film-mask { border-radius: 48px; }
   .retreat-photography figcaption { gap: 16px; margin-top: 16px; }
 }
