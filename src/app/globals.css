@@ -66,7 +66,7 @@ a {
   inset: 0;
   background-repeat: repeat;
   background-size: 84px 84px;
-  opacity: 0.025;
+  opacity: 0.012;
   pointer-events: none;
   user-select: none;
   z-index: 0;
@@ -122,24 +122,21 @@ a {
   order: -1;
 }
 .retreat-photo-pair {
-  display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-  align-items: start;
-  gap: 20px;
-  width: 100%;
+  position: relative;
+  width: min(100%, 460px);
+  margin-inline: auto;
+  aspect-ratio: 0.60;
 }
 .retreat-study-shot,
 .retreat-fellowship-shot {
-  position: relative;
+  position: absolute;
   min-width: 0;
-  width: 100%;
-  padding: 8px;
-  border: 1px solid rgba(185, 152, 103, 0.25);
-  border-radius: 4px;
-  background: #141510;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.24);
 }
-.retreat-study-image { position: relative; width: 100%; aspect-ratio: 464 / 624; overflow: hidden; }
+.retreat-study-shot { top: 0; left: 0; width: 100%; }
+.retreat-study-image { position: relative; width: 100%; aspect-ratio: 1; border-radius: 50%; overflow: hidden; }
+.retreat-study-image img { object-position: center 28%; }
+.retreat-fellowship-shot { top: 27%; left: 12%; width: 58%; }
+.retreat-inline-film-mask { overflow: hidden; border-radius: 64px; }
 .retreat-photography figcaption {
   display: flex;
   align-items: center;
@@ -152,14 +149,25 @@ a {
   font-size: 11px;
   line-height: 1.5;
 }
-.retreat-film-trigger {
-  width: 100%;
-  min-height: 44px;
-  padding: 10px 12px;
-  font-size: 10px;
-  cursor: pointer;
-  margin-top: 12px;
+.retreat-inline-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
 }
+.retreat-inline-controls button {
+  min-height: 44px;
+  padding: 8px;
+  border: 0;
+  background: transparent;
+  color: #d2b18c;
+  font-size: 12px;
+  cursor: pointer;
+}
+.retreat-inline-controls button:hover { color: #f0e7da; }
+.retreat-inline-controls button:focus-visible { outline: 2px solid #d2b18c; outline-offset: 2px; }
+.retreat-film-trigger { display: inline-flex; align-items: center; gap: 8px; }
 .retreat-film-dialog {
   width: min(420px, calc(100vw - 32px), calc((100dvh - 100px) * 464 / 832));
   max-height: calc(100dvh - 24px);
@@ -207,10 +215,9 @@ a {
   .retreat-editorial { grid-template-columns: minmax(0, 1fr); gap: 44px; margin-top: 36px; }
   .retreat-copy { max-width: 480px; font-size: 16px; line-height: 1.85; }
   .retreat-photography { order: 0; }
-  .retreat-watermark { background-size: 72px 72px; opacity: 0.02; }
-  .retreat-photo-pair { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .retreat-watermark { background-size: 72px 72px; opacity: 0.012; }
+  .retreat-inline-film-mask { border-radius: 48px; }
   .retreat-photography figcaption { gap: 16px; margin-top: 16px; }
-  .retreat-film-trigger { font-size: 11px; }
 }
 
 .dig-hero::after {

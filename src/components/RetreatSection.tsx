@@ -43,7 +43,7 @@ export function RetreatSection() {
                     src={currentEdition.assets.retreatStudy}
                     alt="Retreat participants seated together around tables with open Bibles."
                     fill
-                    sizes="(min-width: 768px) 460px, 68vw"
+                  sizes="(min-width: 768px) 460px, calc(100vw - 48px)"
                     className="object-cover object-center"
                   />
                 </div>

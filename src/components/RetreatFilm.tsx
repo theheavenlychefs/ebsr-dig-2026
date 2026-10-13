@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { currentEdition } from "@/lib/edition";
-import { GlassCta } from "./GlassCta";
 
 export function RetreatFilm() {
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -13,6 +12,7 @@ export function RetreatFilm() {
   const [isOpen, setIsOpen] = useState(false);
   const [playbackError, setPlaybackError] = useState(false);
   const [inlineError, setInlineError] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
     const inlineVideo = inlineVideoRef.current;
@@ -48,6 +48,13 @@ export function RetreatFilm() {
       triggerRef.current?.focus({ preventScroll: true });
     };
   }, [isOpen]);
+
+  function togglePlayback() {
+    const video = inlineVideoRef.current;
+    if (!video) return;
+    if (!video.paused) video.pause();
+    else void video.play().catch(() => setInlineError(true));
+  }
 
   function openFilm() {
     const dialog = dialogRef.current;
@@ -90,40 +97,46 @@ export function RetreatFilm() {
 
   return (
     <div className="retreat-fellowship-shot">
+      <div className="retreat-inline-film-mask">
       <video
         ref={inlineVideoRef}
         className="retreat-film retreat-inline-film"
         width={464}
         height={832}
-        controls
         playsInline
         preload="none"
         poster={currentEdition.assets.retreatFilmPoster}
         src={currentEdition.assets.retreatFilm}
         aria-label="EBSR retreat film, inline player"
         onError={() => setInlineError(true)}
-        onPlaying={() => setInlineError(false)}
+        onPlaying={() => { setInlineError(false); setIsPlaying(true); }}
+        onPause={() => setIsPlaying(false)}
+        onEnded={() => setIsPlaying(false)}
       >
         <a href={currentEdition.assets.retreatFilm}>Open the retreat film</a>
       </video>
+      </div>
+      <div className="retreat-inline-controls">
+        <button type="button" onClick={togglePlayback} aria-label={isPlaying ? "Pause retreat film" : "Play retreat film"}>
+          {isPlaying ? "Pause" : "Play"}
+        </button>
+        <button
+          ref={triggerRef}
+          type="button"
+          className="retreat-film-trigger"
+          aria-label="Watch retreat film in expanded mode"
+          aria-haspopup="dialog"
+          aria-controls="retreat-film-dialog"
+          onClick={openFilm}
+        >
+          Expand <span aria-hidden="true">&#8599;</span>
+        </button>
+      </div>
       {inlineError && (
         <p className="retreat-film-error" role="status">
           Video unavailable. <a href={currentEdition.assets.retreatFilm}>Open the film</a>.
         </p>
       )}
-      <GlassCta
-        ref={triggerRef}
-        type="button"
-        tone="secondary"
-        className="retreat-film-trigger"
-        aria-label="Watch retreat film in expanded mode"
-        aria-haspopup="dialog"
-        aria-controls="retreat-film-dialog"
-        onClick={openFilm}
-      >
-        <span>Expand film</span>
-        <span aria-hidden="true" className="glass-cta-arrow">&rarr;</span>
-      </GlassCta>
       <dialog
         ref={dialogRef}
         id="retreat-film-dialog"
