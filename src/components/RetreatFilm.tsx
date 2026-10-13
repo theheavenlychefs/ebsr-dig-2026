@@ -5,6 +5,7 @@ import { currentEdition } from "@/lib/edition";
 import { RetreatWaves } from "./RetreatWaves";
 import { Maximize2, Pause, Play, Volume2, VolumeX } from "lucide-react";
 import { GlassCta } from "./GlassCta";
+import { playRetreatPreview } from "@/lib/retreat-autoplay";
 
 export function RetreatFilm() {
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -15,11 +16,19 @@ export function RetreatFilm() {
   const wantsPlaybackRef = useRef(true);
   const inViewRef = useRef(false);
   const expandedRef = useRef(false);
+  const pendingPlayRef = useRef(false);
   const [isOpen, setIsOpen] = useState(false);
   const [playbackError, setPlaybackError] = useState(false);
   const [inlineError, setInlineError] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
+
+  function startPreview(video: HTMLVideoElement) {
+    if (pendingPlayRef.current) return;
+    const mayPlay = () => inlineVideoRef.current === video && !document.hidden && inViewRef.current && !expandedRef.current && wantsPlaybackRef.current;
+    pendingPlayRef.current = true;
+    void playRetreatPreview(video, mayPlay).finally(() => { pendingPlayRef.current = false; });
+  }
 
   useEffect(() => {
     const inlineVideo = inlineVideoRef.current;
@@ -35,8 +44,7 @@ export function RetreatFilm() {
       if (document.hidden || !inViewRef.current || expandedRef.current || !wantsPlaybackRef.current) {
         inlineVideo.pause();
       } else {
-        // Autoplay rejection leaves the real poster and manual Play control available.
-        void inlineVideo.play().catch(() => {});
+        startPreview(inlineVideo);
       }
     };
     const observer = new IntersectionObserver(([entry]) => {
@@ -138,34 +146,36 @@ export function RetreatFilm() {
     expandedRef.current = false;
     setIsOpen(false);
     if (inlineVideo && inViewRef.current && !document.hidden && wantsPlaybackRef.current) {
-      void inlineVideo.play().catch(() => {});
+      startPreview(inlineVideo);
     }
   }
 
   return (
     <div className="retreat-fellowship-shot" data-playing={isPlaying}>
-      <RetreatWaves />
-      <div className="retreat-inline-film-mask">
-      <video
-        id="retreat-inline-film"
-        ref={inlineVideoRef}
-        className="retreat-film retreat-inline-film"
-        width={464}
-        height={832}
-        playsInline
-        muted
-        loop
-        preload="none"
-        poster={currentEdition.assets.retreatFilmPoster}
-        src={currentEdition.assets.retreatFilm}
-        aria-label="EBSR retreat film, inline player"
-        onError={() => setInlineError(true)}
-        onPlaying={() => { setInlineError(false); setIsPlaying(true); }}
-        onPause={() => setIsPlaying(false)}
-        onEnded={() => setIsPlaying(false)}
-      >
-        <a href={currentEdition.assets.retreatFilm}>Open the retreat film</a>
-      </video>
+      <div className="retreat-film-visual">
+        <RetreatWaves shape="film" />
+        <div className="retreat-inline-film-mask">
+          <video
+            id="retreat-inline-film"
+            ref={inlineVideoRef}
+            className="retreat-film retreat-inline-film"
+            width={464}
+            height={832}
+            playsInline
+            loop
+            preload="none"
+            poster={currentEdition.assets.retreatFilmPoster}
+            src={currentEdition.assets.retreatFilm}
+            aria-label="EBSR retreat film, inline player"
+            onError={() => setInlineError(true)}
+            onPlaying={() => { setInlineError(false); setIsPlaying(true); }}
+            onPause={() => setIsPlaying(false)}
+            onEnded={() => setIsPlaying(false)}
+            onVolumeChange={(event) => setIsMuted(event.currentTarget.muted)}
+          >
+            <a href={currentEdition.assets.retreatFilm}>Open the retreat film</a>
+          </video>
+        </div>
       </div>
       <div className="retreat-inline-controls">
         <GlassCta type="button" onClick={togglePlayback} aria-label={isPlaying ? "Pause retreat film" : "Play retreat film"} title={isPlaying ? "Pause film" : "Play film"}>
