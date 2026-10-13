@@ -18,6 +18,7 @@ export const currentEdition = {
     poster: "/assets/dig-2026-poster.png",
     retreatFilm: "/assets/retreat-film.mp4",
     retreatFilmPoster: "/assets/retreat-film-poster.webp",
+    retreatStudy: "/assets/retreat-study.webp",
   },
   navItems: [
     { label: "The Retreat", href: "#retreat" },

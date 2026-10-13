@@ -1,16 +1,18 @@
+import Image from "next/image";
 import { currentEdition } from "@/lib/edition";
+import { RetreatFilm } from "./RetreatFilm";
 
 export function RetreatSection() {
   return (
     <section id="retreat" className="retreat-section" aria-labelledby="retreat-heading">
       <div className="retreat-inner">
         <p className="retreat-eyebrow">02 / THE RETREAT</p>
+        <h2 id="retreat-heading" className="retreat-heading">
+          <span>Not just an audience.</span>
+          <span>A gathering around the <em>Word.</em></span>
+        </h2>
         <div className="retreat-editorial">
           <div className="retreat-story">
-            <h2 id="retreat-heading" className="retreat-heading">
-              <span>Not just an audience.</span>
-              <span>A gathering around the Word.</span>
-            </h2>
             <div className="retreat-copy">
               <p>
                 Elohim&apos;s Bible Study Retreat was born from a burden to create
@@ -29,20 +31,30 @@ export function RetreatSection() {
           </div>
 
           <figure className="retreat-photography">
-            <video
-              className="retreat-film"
-              width={464}
-              height={832}
-              controls
-              playsInline
-              preload="none"
-              poster={currentEdition.assets.retreatFilmPoster}
-              src={currentEdition.assets.retreatFilm}
-              aria-label="Elohim's Bible Study Retreat film, fellowship and Bible study"
-            >
-              <a href={currentEdition.assets.retreatFilm}>Watch the retreat film</a>
-            </video>
-            <figcaption>Elohim&apos;s Bible Study Retreat</figcaption>
+            <div className="retreat-photo-pair">
+              <div className="retreat-study-shot">
+                <Image
+                  src={currentEdition.assets.retreatStudy}
+                  alt="Retreat participants seated together around tables with open Bibles."
+                  fill
+                  sizes="(min-width: 768px) 460px, 68vw"
+                  className="object-cover object-center"
+                />
+              </div>
+              <div className="retreat-fellowship-shot">
+                <Image
+                  src={currentEdition.assets.retreatFilmPoster}
+                  alt="Participants bringing their hands together at the retreat."
+                  fill
+                  sizes="(min-width: 768px) 260px, 38vw"
+                  className="object-cover object-top"
+                />
+              </div>
+            </div>
+            <figcaption>
+              <span>Elohim&apos;s Bible Study Retreat</span>
+              <RetreatFilm />
+            </figcaption>
           </figure>
         </div>
       </div>
