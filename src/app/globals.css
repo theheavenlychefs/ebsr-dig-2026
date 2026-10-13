@@ -66,8 +66,7 @@ a {
   inset: 0;
   background-repeat: repeat;
   background-size: 84px 84px;
-  background-position: 0 8px;
-  opacity: 0.1;
+  opacity: 0.025;
   pointer-events: none;
   user-select: none;
   z-index: 0;
@@ -122,28 +121,25 @@ a {
   width: 100%;
   order: -1;
 }
-.retreat-photo-pair { position: relative; width: 100%; aspect-ratio: 1.14; }
+.retreat-photo-pair {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  align-items: start;
+  gap: 20px;
+  width: 100%;
+}
 .retreat-study-shot,
 .retreat-fellowship-shot {
-  position: absolute;
-  padding: 14px;
-  border: 2px solid #8b7149;
+  position: relative;
+  min-width: 0;
+  width: 100%;
+  padding: 8px;
+  border: 1px solid rgba(185, 152, 103, 0.25);
   border-radius: 4px;
-  background: linear-gradient(135deg, #433321, #171410 48%, #34271c);
-  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(241, 213, 167, 0.2), inset 0 -1px 0 rgba(0, 0, 0, 0.8);
+  background: #141510;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.24);
 }
-.retreat-study-shot::before,
-.retreat-fellowship-shot::before {
-  content: "";
-  position: absolute;
-  inset: 6px;
-  border: 1px solid rgba(197, 164, 111, 0.4);
-  border-radius: 1px;
-  pointer-events: none;
-}
-.retreat-study-shot { top: 0; left: 0; width: 67%; }
-.retreat-study-image { position: relative; width: 100%; aspect-ratio: 1; overflow: hidden; background: #080705; }
-.retreat-fellowship-shot { right: 0; bottom: 0; width: 41%; }
+.retreat-study-image { position: relative; width: 100%; aspect-ratio: 464 / 624; overflow: hidden; }
 .retreat-photography figcaption {
   display: flex;
   align-items: center;
@@ -162,7 +158,7 @@ a {
   padding: 10px 12px;
   font-size: 10px;
   cursor: pointer;
-  margin-top: 10px;
+  margin-top: 12px;
 }
 .retreat-film-dialog {
   width: min(420px, calc(100vw - 32px), calc((100dvh - 100px) * 464 / 832));
@@ -211,11 +207,8 @@ a {
   .retreat-editorial { grid-template-columns: minmax(0, 1fr); gap: 44px; margin-top: 36px; }
   .retreat-copy { max-width: 480px; font-size: 16px; line-height: 1.85; }
   .retreat-photography { order: 0; }
-  .retreat-watermark { background-size: 72px 72px; opacity: 0.09; }
-  .retreat-photo-pair { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; aspect-ratio: auto; }
-  .retreat-study-shot { position: relative; width: 100%; }
-  .retreat-study-image { aspect-ratio: 4 / 3; }
-  .retreat-fellowship-shot { position: relative; width: min(100%, 300px); justify-self: center; right: auto; bottom: auto; }
+  .retreat-watermark { background-size: 72px 72px; opacity: 0.02; }
+  .retreat-photo-pair { grid-template-columns: minmax(0, 1fr); gap: 20px; }
   .retreat-photography figcaption { gap: 16px; margin-top: 16px; }
   .retreat-film-trigger { font-size: 11px; }
 }
