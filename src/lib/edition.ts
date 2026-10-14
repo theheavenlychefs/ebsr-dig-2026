@@ -19,6 +19,7 @@ export const currentEdition = {
     retreatFilm: "/assets/retreat-film.mp4",
     retreatFilmPoster: "/assets/retreat-film-poster.webp",
     retreatStudy: "/assets/retreat-study.webp",
+    experienceMemories: "/assets/experience-memories.webp",
   },
   navItems: [
     { label: "The Retreat", href: "#retreat" },

@@ -7,6 +7,7 @@
     "build": "next build"
   },
   "dependencies": {
+    "embla-carousel-react": "^8.6.0",
     "lucide-react": "^1.55.0",
     "next": "^15.5.5",
     "react": "^19.1.0",
