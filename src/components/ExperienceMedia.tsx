@@ -5,8 +5,9 @@ import { useEffect, useRef, useState } from "react";
 import { Volume2, VolumeX } from "lucide-react";
 import type { ExperienceSlide } from "@/lib/experience-slides";
 
-export function ExperienceMedia({ slide, active, playing, onSoundInteraction }: {
+export function ExperienceMedia({ slide, index, active, playing, onSoundInteraction }: {
   slide: ExperienceSlide;
+  index: number;
   active: boolean;
   playing: boolean;
   onSoundInteraction: () => void;
@@ -56,7 +57,7 @@ export function ExperienceMedia({ slide, active, playing, onSoundInteraction }: 
   }
 
   return (
-    <>
+    <div className="experience-film-frame" style={{ aspectRatio: media.aspectRatio }}>
       <Image src={media.poster} alt={media.alt} fill sizes="(min-width: 1024px) 760px, calc(100vw - 40px)" className="experience-video-poster" loading="lazy" draggable={false} />
       {!failed && <video
         ref={videoRef}
@@ -70,6 +71,7 @@ export function ExperienceMedia({ slide, active, playing, onSoundInteraction }: 
         aria-label={media.alt}
         onError={() => setFailed(true)}
       />}
+      <span className="experience-media-label" aria-hidden="true">EBSR <span>/</span> {String(index + 1).padStart(2, "0")}</span>
       {(failed || blocked) && <span className="experience-media-status">{failed ? "Retreat film still" : "Film preview paused"}</span>}
       {!failed && <button
         type="button"
@@ -88,6 +90,6 @@ export function ExperienceMedia({ slide, active, playing, onSoundInteraction }: 
           void video.play().then(() => setBlocked(false)).catch(() => setBlocked(true));
         }}
       >{muted ? <VolumeX size={18} /> : <Volume2 size={18} />}</button>}
-    </>
+    </div>
   );
 }

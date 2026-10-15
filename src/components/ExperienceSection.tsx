@@ -7,6 +7,7 @@ import { ArrowLeft, ArrowRight, Pause, Play } from "lucide-react";
 import { experienceSlides } from "@/lib/experience-slides";
 import { createExperienceClock, slideDuration, type ClockSnapshot } from "@/lib/experience-clock";
 import { ExperienceMedia } from "./ExperienceMedia";
+import { currentEdition } from "@/lib/edition";
 
 const durations = experienceSlides.map((slide) => slideDuration(slide.name, slide.title, slide.body));
 
@@ -125,6 +126,7 @@ export function ExperienceSection() {
       onFocusCapture={(event) => clockRef.current?.pause("focus", event.target.matches(":focus-visible"))}
       onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) clockRef.current?.pause("focus", false); }}
     >
+      <div className="experience-watermark" aria-hidden="true" style={{ backgroundImage: `url(${currentEdition.assets.elohimsLogo})` }} />
       <div className="experience-inner">
         <header className="experience-header">
           <p className="experience-eyebrow"><span>03</span> / THE EXPERIENCE</p>
@@ -147,8 +149,7 @@ export function ExperienceSection() {
                   className="experience-media"
                   onClick={() => setUserPaused((paused) => !paused)}
                 >
-                  <ExperienceMedia slide={slide} active={selected === index && inView} playing={inView && pageVisible && !reducedMotion} onSoundInteraction={() => setUserPaused(true)} />
-                  <span className="experience-media-label" aria-hidden="true">EBSR <span>/</span> {String(index + 1).padStart(2, "0")}</span>
+                  <ExperienceMedia slide={slide} index={index} active={selected === index && inView} playing={inView && pageVisible && !reducedMotion} onSoundInteraction={() => setUserPaused(true)} />
                 </div>
                 <div className="experience-slide-copy" onClick={() => setUserPaused((paused) => !paused)}>
                   <p className="experience-chapter"><span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>{slide.name}</p>
@@ -171,7 +172,7 @@ export function ExperienceSection() {
                 aria-label={`Go to slide ${index + 1}: ${slide.name}`}
                 aria-current={index === selected ? "true" : undefined}
                 onClick={() => navigate(index)}
-                style={{ "--segment-color": index < selected ? "#c9a14a" : "rgba(201,161,74,.2)" } as CSSProperties}
+                style={{ "--segment-color": index < selected ? "#80601f" : "rgba(104,87,52,.2)" } as CSSProperties}
               >
                 <span className="experience-progress-track">
                   {index === selected && <span key={index} ref={progressRef} className="experience-progress-fill" />}
@@ -181,7 +182,7 @@ export function ExperienceSection() {
             ))}
           </div>
           <div className="experience-transport">
-            <span className="experience-count" aria-hidden="true">{String(selected + 1).padStart(2, "0")} <span>/ 05</span></span>
+            <span className="experience-count" aria-hidden="true">{String(selected + 1).padStart(2, "0")} <span>/ {String(experienceSlides.length).padStart(2, "0")}</span></span>
             <button type="button" className="experience-control" aria-label="Previous experience" title="Previous experience" onClick={() => navigate((selected + experienceSlides.length - 1) % experienceSlides.length)}><ArrowLeft size={19} /></button>
             <button
               type="button"
@@ -194,7 +195,7 @@ export function ExperienceSection() {
             <button type="button" className="experience-control" aria-label="Next experience" title="Next experience" onClick={() => navigate((selected + 1) % experienceSlides.length)}><ArrowRight size={19} /></button>
           </div>
         </footer>
-        <p className="experience-announcement sr-only" aria-live={clock.running ? "off" : "polite"} aria-atomic="true">{experienceSlides[selected].name}. {experienceSlides[selected].title} Slide {selected + 1} of 5.</p>
+        <p className="experience-announcement sr-only" aria-live={clock.running ? "off" : "polite"} aria-atomic="true">{experienceSlides[selected].name}. {experienceSlides[selected].title} Slide {selected + 1} of {experienceSlides.length}.</p>
       </div>
     </section>
   );

@@ -37,6 +37,15 @@ function load(path, imports = {}) {
 modules['./edition'] = load('src/lib/edition.ts');
 modules['@/lib/experience-slides'] = load('src/lib/experience-slides.ts');
 modules['@/lib/experience-clock'] = load('src/lib/experience-clock.ts');
+modules['@/lib/edition'] = modules['./edition'];
+const slideCount = modules['@/lib/experience-slides'].experienceSlides.length;
+assert.equal(slideCount, 3);
+for (const slide of modules['@/lib/experience-slides'].experienceSlides) {
+  assert.equal(slide.media.kind, 'video');
+  assert.ok(slide.media.src.startsWith('/assets/experience-'), 'do not reuse the About retreat film');
+  assert.ok(fs.existsSync('public' + slide.media.src));
+  assert.ok(fs.existsSync('public' + slide.media.poster));
+}
 
 let selected = 0;
 let lastJump = false;
@@ -53,7 +62,7 @@ const api = {
     if (jump) events.get('settle')?.();
     else setTimer(() => events.get('settle')?.(), 600);
   },
-  scrollNext() { api.scrollTo((selected + 1) % 5); },
+  scrollNext() { api.scrollTo((selected + 1) % slideCount); },
 };
 const states = [], refs = [], effects = [];
 let stateIndex, refIndex, effectIndex, dirty = true;
@@ -162,11 +171,11 @@ assert.equal(lastJump, true, 'manual reduced-motion navigation jumps without a l
 motion.matches = false;
 listeners.get('motion')();
 render();
-control('Go to slide 4: Fellowship').props.onClick();
+control('Go to slide 2: Fellowship').props.onClick();
 render();
 assert.equal(video().props.active, true);
 assert.equal(video().props.playing, true);
-control('Go to slide 5: Memories').props.onClick();
+control('Go to slide 3: Memories').props.onClick();
 render();
 assert.equal(video().props.active, false, 'only the active slide is permitted to play');
 advance(600);
