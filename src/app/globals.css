@@ -68,6 +68,7 @@ a {
 .experience-watermark { position: absolute; inset: 0; z-index: 0; background-repeat: repeat; background-size: 84px 84px; opacity: 0.02625; pointer-events: none; user-select: none; }
 .experience-inner { position: relative; z-index: 1; min-width: 0; width: 100%; max-width: 1216px; margin-inline: auto; }
 .experience-header { margin-bottom: 32px; }
+.experience-header-desktop { display: none; }
 .experience-eyebrow { display: flex; align-items: center; gap: 12px; margin: 0 0 18px; color: #c9a14a; font-size: 11px; line-height: 1.5; }
 .experience-eyebrow > span { color: #bd807b; }
 .experience-eyebrow::after { content: ""; width: 64px; height: 1px; margin-left: 10px; background: #694342; }
@@ -123,17 +124,21 @@ a {
   .experience-pagination { gap: 12px; }
 }
 @media (width >= 48rem) {
-  .experience-slide { grid-template-columns: auto minmax(0, 360px); justify-content: center; gap: 64px; }
+  .experience-header-mobile { display: none; }
+  .experience-header-desktop { display: block; }
+  .experience-slide { grid-template-columns: minmax(0, 500px) auto; justify-content: center; gap: 64px; }
   .experience-media {
-    --experience-desktop-height: min(540px, max(340px, calc(100svh - 350px)), calc((100vw - 480px) / var(--experience-film-ratio, 1)));
+    order: 2;
+    --experience-desktop-height: min(540px, max(340px, calc(100svh - 220px)), calc((100vw - 640px) / var(--experience-film-ratio, 1)));
     width: calc(var(--experience-desktop-height) * var(--experience-film-ratio, 1));
     height: var(--experience-desktop-height);
   }
-  .experience-slide-copy { padding: 24px 0; }
-  .experience-slide-copy h3, .experience-description { max-width: 360px; }
+  .experience-slide-copy { order: 1; padding: 0; }
+  .experience-slide-copy h3, .experience-description { max-width: 440px; }
 }
 @media (48rem <= width < 64rem) {
-  .experience-slide { grid-template-columns: auto minmax(0, 320px); gap: 40px; }
+  .experience-slide { grid-template-columns: minmax(0, 320px) auto; gap: 40px; }
+  .experience-header h2 { font-size: 30px; }
   .experience-media { --experience-desktop-height: min(540px, max(340px, calc(100svh - 350px)), calc((100vw - 430px) / var(--experience-film-ratio, 1))); }
 }
 @media (width < 48rem) {

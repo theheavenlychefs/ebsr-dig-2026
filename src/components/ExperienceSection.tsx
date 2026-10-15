@@ -11,6 +11,13 @@ import { currentEdition } from "@/lib/edition";
 
 const durations = experienceSlides.map((slide) => slideDuration(slide.name, slide.title, slide.body));
 
+function ExperienceHeading({ id, className }: { id?: string; className: string }) {
+  return <header className={`experience-header ${className}`}>
+    <p className="experience-eyebrow"><span>03</span> / THE EXPERIENCE</p>
+    <h2 id={id}>Five days. One gathering.<br /><em>Countless moments.</em></h2>
+  </header>;
+}
+
 export function ExperienceSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const progressRef = useRef<HTMLSpanElement>(null);
@@ -153,10 +160,7 @@ export function ExperienceSection() {
     >
       <div className="experience-watermark" aria-hidden="true" style={{ backgroundImage: `url(${currentEdition.assets.elohimsLogo})` }} />
       <div className="experience-inner">
-        <header className="experience-header">
-          <p className="experience-eyebrow"><span>03</span> / THE EXPERIENCE</p>
-          <h2 id="experience-heading">Five days. One gathering.<br /><em>Countless moments.</em></h2>
-        </header>
+        <ExperienceHeading id="experience-heading" className="experience-header-mobile" />
 
         <div className="experience-viewport" ref={emblaRef} tabIndex={0} aria-label="Retreat moments">
           <div className="experience-track">
@@ -178,6 +182,7 @@ export function ExperienceSection() {
                   <ExperienceMedia slide={slide} index={index} active={selected === index && inView} playing={inView && pageVisible && !reducedMotion} onSoundInteraction={() => setUserPaused(true)} />
                 </div>
                 <div className="experience-slide-copy" onClick={() => setUserPaused((paused) => !paused)}>
+                  <ExperienceHeading className="experience-header-desktop" />
                   <p className="experience-chapter"><span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>{slide.name}</p>
                   <h3>{slide.title}</h3>
                   <p className="experience-description">{slide.body}</p>
