@@ -2,6 +2,7 @@ import { Hero } from "@/components/Hero";
 import { SiteHeader } from "@/components/SiteHeader";
 import { RetreatSection } from "@/components/RetreatSection";
 import { ExperienceSection } from "@/components/ExperienceSection";
+import { ThemeSection } from "@/components/ThemeSection";
 
 export default function Home() {
   return (
@@ -10,6 +11,7 @@ export default function Home() {
       <Hero />
       <RetreatSection />
       <ExperienceSection />
+      <ThemeSection />
     </main>
   );
 }

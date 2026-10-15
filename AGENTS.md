@@ -14,3 +14,4 @@
 - The inline retreat film uses a slight 1.34x presentation zoom, approved by the user to preserve more footage. Some landscape shots can retain letterboxing. The expanded viewer must show the full uncropped video.
 - Keep the contour-emitted ripples, audible-first autoplay with browser-policy muted fallback, accessible film controls, and reduced-motion support.
 - Implement only the section or page currently requested; do not add future pages or backend features speculatively.
+- The Theme section follows Experience on pure black. Reuse CyclicAlphaLogo without changing its approved cycle. Scripture is drawn once with ordered SVG pen strokes; the clean supporting statement types once afterward. Reduced motion shows both immediately. Keep this section calm, centred, and free of cards.

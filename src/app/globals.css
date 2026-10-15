@@ -51,6 +51,36 @@ a {
   text-wrap: balance;
 }
 
+.theme-section { position: relative; background: #000; color: #f0e7da; padding: 72px 32px 88px; min-height: min(860px, 100svh); display: grid; align-items: center; scroll-margin-top: 24px; border-top: 1px solid #261a19; }
+.theme-inner { width: 100%; max-width: 1216px; margin-inline: auto; }
+.theme-eyebrow { display: flex; align-items: center; gap: 12px; margin: 0 0 40px; font-size: 11px; color: #c9a14a; }
+.theme-eyebrow > span { color: #bd807b; }
+.theme-composition { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.theme-logo { position: relative; width: min(380px, 85%); aspect-ratio: 914 / 480; overflow: hidden; margin-bottom: 32px; }
+.theme-scripture { width: min(100%, 660px); margin: 0; }
+.theme-scripture blockquote { margin: 0; }
+.theme-handwriting { display: block; width: 100%; height: auto; overflow: visible; color: #e2c68d; }
+.theme-writing-stroke { fill: none; stroke: currentColor; stroke-width: 1.65; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: theme-write var(--stroke-duration) linear var(--stroke-delay) both paused; }
+.theme-scripture figcaption { margin-top: 16px; font-size: 12px; line-height: 1.5; color: #b8a88c; }
+.theme-statement { width: min(100%, 520px); margin: 40px 0 0; padding-top: 28px; border-top: 1px solid #633637; font-size: 20px; line-height: 1.7; font-weight: 400; text-wrap: balance; }
+.theme-typed-word { display: inline-block; }
+.theme-typed-character { opacity: 0; animation: theme-type 1ms steps(1, end) var(--character-delay) both paused; }
+.theme-section[data-entered="true"] .theme-writing-stroke, .theme-section[data-entered="true"] .theme-typed-character { animation-play-state: running; }
+@keyframes theme-write { to { stroke-dashoffset: 0; } }
+@keyframes theme-type { to { opacity: 1; } }
+@media (width < 48rem) {
+  .theme-section { min-height: 0; padding: 48px 24px 64px; scroll-margin-top: 16px; }
+  .theme-eyebrow { margin-bottom: 32px; font-size: 10px; }
+  .theme-logo { width: min(290px, 85%); margin-bottom: 24px; }
+  .theme-writing-stroke { stroke-width: 2; }
+  .theme-scripture figcaption { margin-top: 18px; font-size: 11px; }
+  .theme-statement { margin-top: 32px; padding-top: 24px; font-size: 17px; line-height: 1.7; }
+}
+@media (prefers-reduced-motion: reduce), (scripting: none) {
+  .theme-writing-stroke { animation: none; stroke-dashoffset: 0; }
+  .theme-typed-character { animation: none; opacity: 1; }
+}
+
 .experience-section {
   position: relative;
   isolation: isolate;
@@ -849,4 +879,18 @@ a {
     font-size: 15px;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 2px 8px rgba(0, 0, 0, 0.65);
   }
+}
+
+/* Crop only the Theme presentation box to the original artwork's transparent bounds. */
+.theme-logo .dig-wordmark, .theme-logo-fallback {
+  position: absolute;
+  width: 135.7768%;
+  max-width: none;
+  height: auto;
+  aspect-ratio: 1241 / 835;
+  left: -16.6302%;
+  top: -38.125%;
+  margin: 0;
+  transform: none;
+  translate: none !important;
 }
