@@ -198,7 +198,7 @@ export function ExperienceSection() {
                 aria-label={`Go to slide ${index + 1}: ${slide.name}`}
                 aria-current={index === selected ? "true" : undefined}
                 onClick={() => navigate(index)}
-                style={{ "--segment-color": index < selected ? "#80601f" : "rgba(104,87,52,.2)" } as CSSProperties}
+                style={{ "--segment-color": index < selected ? "#c9a14a" : "rgba(201,161,74,.2)" } as CSSProperties}
               >
                 <span className="experience-progress-track">
                   {index === selected && <span key={index} ref={progressRef} className="experience-progress-fill" />}
