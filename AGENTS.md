@@ -1,8 +1,7 @@
 # EBSR Design Decisions
 
 - The approved DIG 2026 homepage hero is locked unless the user explicitly requests a hero change.
-- The Retreat section uses a pure black (`#000000`) background. The temporary black/white comparison control was removed after the user selected black.
-- The Experience section uses pure black (`#000000`), following the user's latest background decision. Continue the faint official Elohim's watermark pattern across this section; keep readable ivory text, antique gold, and muted crimson accents.
+- The Retreat and Experience sections use a black base with an extremely subdued shared treatment of the original hero background, per the user's latest direction. Keep their faint official Elohim's watermark patterns, readable ivory text, antique gold, and muted crimson accents. No black/white comparison control.
 - The Experience has three stories: The Word, Fellowship, and Memories. Use only the newly supplied The Word.mp4, Needed.mp4, and Memories2.mp4 excerpts, not media already used in The Retreat. The original worship/prayer placeholders were superseded by this footage-led direction.
 - On mobile, Experience video is the dominant element. Keep portrait previews large, copy compact, and button surfaces small while retaining 44px tap targets. Let slide height follow the portrait/square footage rather than shrinking videos or reserving empty copy space. Desktop sizing stays unchanged.
 - On desktop, place ALL Experience editorial text (section heading, chapter, headline and description) together on the LEFT and the natural-ratio video on the RIGHT. Mobile keeps its heading, video, then slide copy order. Keep the poster visible until a playable video frame is rendered; do not expose the loading video surface.
@@ -14,4 +13,6 @@
 - The inline retreat film uses a slight 1.34x presentation zoom, approved by the user to preserve more footage. Some landscape shots can retain letterboxing. The expanded viewer must show the full uncropped video.
 - Keep the contour-emitted ripples, audible-first autoplay with browser-policy muted fallback, accessible film controls, and reduced-motion support.
 - Implement only the section or page currently requested; do not add future pages or backend features speculatively.
-- The Theme section follows Experience on pure black. Reuse CyclicAlphaLogo without changing its approved cycle. Scripture is drawn once with ordered SVG pen strokes; the clean supporting statement types once afterward. Reduced motion shows both immediately. Keep this section calm, centred, and free of cards.
+- The Theme section follows Experience, with a more recognizable treatment of the original hero background. Reuse CyclicAlphaLogo without changing its approved cycle. Scripture is drawn once with ordered SVG pen strokes; the full reflection types once afterward. Reduced motion shows both immediately. Keep this section calm, centred, and free of cards.
+- Theme reflection must remain verbatim: "The message of DIG is not simply about death. It is about a life so completely identified with Christ that He becomes its purpose, its substance, and its ultimate hope."
+- Shared section scenery uses the unchanged `/assets/hero-background.png` on isolated CSS pseudo-elements, with distinct mobile positions/overlays and black edge fades. Keep the approved hero untouched and foreground opacity independent.

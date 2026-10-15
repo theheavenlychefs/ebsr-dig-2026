@@ -4,11 +4,12 @@ import Image from "next/image";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { CyclicAlphaLogo } from "./CyclicAlphaLogo";
 import { currentEdition } from "@/lib/edition";
-import { handwritingLines, themeScripture, themeStatement, writingDuration, writingStrokeCount } from "@/lib/theme-handwriting";
+import { handwritingLines, themeScripture, themeStatement, writingDuration, writingStrokeCount, typingStart, typingInterval, typingCompletion } from "@/lib/theme-handwriting";
 
 export function ThemeSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const [entered, setEntered] = useState(false);
+  const [typingComplete, setTypingComplete] = useState(false);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -22,10 +23,21 @@ export function ThemeSection() {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    if (!entered) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setTypingComplete(true);
+      return;
+    }
+    // Persist the final copy independently of long-delayed CSS animation scheduling.
+    const timer = setTimeout(() => setTypingComplete(true), typingCompletion);
+    return () => clearTimeout(timer);
+  }, [entered]);
+
   let strokeIndex = 0;
   let characterIndex = 0;
   return (
-    <section ref={sectionRef} id="theme" className="theme-section" data-entered={entered} aria-labelledby="theme-heading">
+    <section ref={sectionRef} id="theme" className="theme-section edition-scene" data-entered={entered} aria-labelledby="theme-heading">
       <div className="theme-inner">
         <p className="theme-eyebrow"><span>04</span> / THE THEME</p>
         <h2 id="theme-heading" className="sr-only">DIG: {currentEdition.themeName}</h2>
@@ -48,10 +60,10 @@ export function ThemeSection() {
             </blockquote>
             <figcaption>{currentEdition.scriptureAnchor}</figcaption>
           </figure>
-          <p className="theme-statement">
+          <p className="theme-statement" data-typing-complete={typingComplete}>
             <span className="sr-only">{themeStatement}</span>
             <span aria-hidden="true">{themeStatement.split(/(\s+)/).map((word, wordIndex) => /^\s+$/.test(word) ? word :
-              <span key={wordIndex} className="theme-typed-word">{[...word].map((character, index) => <span key={index} className="theme-typed-character" style={{ "--character-delay": `${writingDuration + 400 + characterIndex++ * 44}ms` } as CSSProperties}>{character}</span>)}</span>
+              <span key={wordIndex} className="theme-typed-word">{[...word].map((character, index) => <span key={index} className="theme-typed-character" style={{ "--character-delay": `${typingStart + characterIndex++ * typingInterval}ms` } as CSSProperties}>{character}</span>)}</span>
             )}</span>
           </p>
         </div>

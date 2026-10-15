@@ -8,7 +8,7 @@ import { RetreatPillars } from "./RetreatPillars";
 
 export function RetreatSection() {
   return (
-    <section id="retreat" className="retreat-section" aria-labelledby="retreat-heading">
+    <section id="retreat" className="retreat-section edition-scene" aria-labelledby="retreat-heading">
       <div
         aria-hidden="true"
         className="retreat-watermark"

@@ -146,7 +146,7 @@ export function ExperienceSection() {
     <section
       ref={sectionRef}
       id="experience"
-      className="experience-section"
+      className="experience-section edition-scene"
       aria-labelledby="experience-heading"
       aria-roledescription="carousel"
       data-active-slide={selected}

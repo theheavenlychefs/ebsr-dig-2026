@@ -20,7 +20,7 @@ const letters: Record<string, { width: number; strokes: string[] }> = {
 };
 
 export const themeScripture = "To live is Christ, to die is gain.";
-export const themeStatement = "Before death can be gain, Christ must be life.";
+export const themeStatement = "The message of DIG is not simply about death. It is about a life so completely identified with Christ that He becomes its purpose, its substance, and its ultimate hope.";
 
 export const handwritingLines = ["To live is Christ,", "to die is gain."].map((line) => {
   let x = 0;
@@ -37,3 +37,6 @@ export const handwritingLines = ["To live is Christ,", "to die is gain."].map((l
 
 export const writingDuration = 4600;
 export const writingStrokeCount = handwritingLines.reduce((count, line) => count + line.strokes.length, 0);
+export const typingStart = writingDuration + 400;
+export const typingInterval = 44;
+export const typingCompletion = typingStart + themeStatement.replace(/\s/g, "").length * typingInterval + 100;
