@@ -122,28 +122,40 @@ a {
   .experience-pagination { gap: 12px; }
 }
 @media (width < 48rem) {
-  .experience-section { min-height: 0; padding: 40px 20px 32px; scroll-margin-top: 16px; }
-  .experience-header { margin-bottom: 24px; }
-  .experience-eyebrow { margin-bottom: 14px; font-size: 10px; }
-  .experience-header h2 { font-size: 26px; line-height: 1.2; }
+  .experience-section { min-height: 0; padding: 28px 20px 24px; scroll-margin-top: 16px; }
+  .experience-header { margin-bottom: 16px; }
+  .experience-eyebrow { margin-bottom: 8px; font-size: 9px; }
+  .experience-header h2 { font-size: 22px; line-height: 1.2; }
   .experience-watermark { background-size: 72px 72px; opacity: 0.0245; }
+  .experience-track { align-items: flex-start; transition: height 600ms ease; }
   .experience-slide { display: flex; flex-direction: column; align-items: stretch; gap: 0; }
-  .experience-media { height: clamp(270px, 35svh, 330px); flex-shrink: 0; }
-  .experience-media-label { top: 12px; left: 12px; padding: 7px 10px; }
-  .experience-slide-copy { flex: 1; padding: 24px 0 0; min-height: 200px; }
-  .experience-chapter { gap: 12px; margin-bottom: 14px; font-size: 10px; }
-  .experience-chapter > span { width: 26px; height: 26px; }
-  .experience-slide-copy h3 { max-width: 100%; font-size: 34px; line-height: 1.08; text-wrap: initial; }
-  .experience-description { max-width: 100%; margin-top: 14px; font-size: 14px; line-height: 1.65; }
+  .experience-media { --experience-media-height: clamp(400px, 58svh, 520px); width: min(100%, calc(var(--experience-media-height) * var(--experience-film-ratio, 1))); height: auto; aspect-ratio: var(--experience-film-ratio, 1); margin-inline: auto; flex-shrink: 0; }
+  .experience-film-frame { width: 100%; height: auto; }
+  .experience-media-label { top: 10px; left: 10px; gap: 8px; padding: 6px 8px; font-size: 8px; }
+  .experience-slide-copy { flex: 0 0 auto; padding: 16px 0 0; min-height: 0; }
+  .experience-chapter { gap: 8px; margin-bottom: 8px; font-size: 9px; }
+  .experience-chapter > span { width: 20px; height: 20px; font-size: 9px; }
+  .experience-slide-copy h3 { max-width: 100%; font-size: 26px; line-height: 1.08; text-wrap: initial; }
+  .experience-description { max-width: 100%; margin-top: 8px; font-size: 13px; line-height: 1.6; }
   .experience-copy-rule { display: none; }
-  .experience-controls { flex-direction: column; align-items: stretch; gap: 8px; margin-top: 12px; }
-  .experience-pagination { width: 100%; max-width: none; gap: 8px; }
+  .experience-controls { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 8px; }
+  .experience-pagination { flex: 1 1 140px; width: auto; min-width: 0; max-width: none; gap: 4px; }
   .experience-progress-name { display: none; }
   .experience-progress-button { min-height: 44px; }
-  .experience-transport { justify-content: flex-end; gap: 10px; }
-  .experience-count { margin-right: auto; }
-  .experience-sound { right: 12px; bottom: 12px; }
+  .experience-transport { justify-content: flex-end; gap: 0; flex-shrink: 0; margin-left: auto; }
+  .experience-count { display: none; }
+  .experience-control, .experience-sound { position: relative; border: 0; background: none; }
+  .experience-control::before, .experience-sound::before { content: ""; position: absolute; inset: 8px; border: 1px solid #ab9870; border-radius: 3px; background: rgba(255,255,255,.8); }
+  .experience-control svg, .experience-sound svg { position: relative; z-index: 1; width: 15px; height: 15px; }
+  .experience-play::before { border-color: #b78a83; background: rgba(114,23,25,.08); }
+  .experience-sound { position: absolute; right: 4px; bottom: 4px; backdrop-filter: none; }
+  .experience-sound::before { border-color: #c9a14a; background: rgba(19,19,19,.75); backdrop-filter: blur(8px); }
   .experience-pending-index { font-size: 80px; }
+}
+@media (width < 48rem) and (hover: hover) and (pointer: fine) {
+  .experience-control:not(:disabled):hover, .experience-sound:hover { background: none; }
+  .experience-control:not(:disabled):hover::before { background: #f5efe5; border-color: #80601f; }
+  .experience-sound:hover::before { background: #41301e; }
 }
 @media (prefers-reduced-motion: reduce) {
   .experience-section *, .experience-section *::before, .experience-section *::after { scroll-behavior: auto; transition-duration: 0.01ms !important; }

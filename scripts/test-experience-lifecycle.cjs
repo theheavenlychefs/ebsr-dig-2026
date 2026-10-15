@@ -14,12 +14,17 @@ const setTimer = (callback, delay) => {
 };
 const listeners = new Map();
 const motion = { matches: false, addEventListener: (_, fn) => listeners.set('motion', fn), removeEventListener: () => listeners.delete('motion') };
+const mobile = { matches: true, addEventListener: (_, fn) => listeners.set('mobile', fn), removeEventListener: () => listeners.delete('mobile') };
 const document = { hidden: false, addEventListener: (name, fn) => listeners.set(name, fn), removeEventListener: (name) => listeners.delete(name) };
 let intersection;
 class IntersectionObserver {
   constructor(callback) { intersection = callback; }
   observe() { this.visible = true; }
   disconnect() { this.visible = false; }
+}
+class ResizeObserver {
+  observe() {}
+  disconnect() {}
 }
 const modules = {};
 function load(path, imports = {}) {
@@ -29,7 +34,7 @@ function load(path, imports = {}) {
   }).outputText;
   vm.runInNewContext(code, {
     exports, require: (name) => imports[name] ?? modules[name] ?? require(name),
-    window: { matchMedia: () => motion }, document, IntersectionObserver,
+    window: { matchMedia: (query) => query.includes('max-width') ? mobile : motion }, document, IntersectionObserver, ResizeObserver,
     setTimeout: setTimer, clearTimeout: (id) => timers.delete(id), performance: { now: () => now },
   });
   return exports;
@@ -50,17 +55,22 @@ for (const slide of modules['@/lib/experience-slides'].experienceSlides) {
 let selected = 0;
 let lastJump = false;
 const events = new Map();
+const track = { style: { height: '' } };
+const slides = [600, 600, 450].map((height) => ({ getBoundingClientRect: () => ({ height }) }));
+const emit = (name) => { for (const callback of events.get(name) ?? []) callback(); };
 const api = {
   selectedScrollSnap: () => selected,
-  on(name, callback) { events.set(name, callback); return api; },
-  off(name) { events.delete(name); return api; },
+  containerNode: () => track,
+  slideNodes: () => slides,
+  on(name, callback) { if (!events.has(name)) events.set(name, new Set()); events.get(name).add(callback); return api; },
+  off(name, callback) { events.get(name)?.delete(callback); if (!events.get(name)?.size) events.delete(name); return api; },
   scrollTo(index, jump = false) {
     selected = index;
     lastJump = jump;
-    events.get('select')?.();
-    events.get('scroll')?.();
-    if (jump) events.get('settle')?.();
-    else setTimer(() => events.get('settle')?.(), 600);
+    emit('select');
+    emit('scroll');
+    if (jump) emit('settle');
+    else setTimer(() => emit('settle'), 600);
   },
   scrollNext() { api.scrollTo((selected + 1) % slideCount); },
 };
@@ -129,6 +139,12 @@ const running = () => tree.props['data-running'];
 
 render();
 assert.equal(running(), false);
+assert.equal(track.style.height, '600px', 'mobile track follows the active portrait slide');
+mobile.matches = false;
+listeners.get('mobile')();
+assert.equal(track.style.height, '', 'desktop height remains untouched');
+mobile.matches = true;
+listeners.get('mobile')();
 intersection([{ isIntersecting: true, intersectionRatio: 1 }]);
 render();
 assert.equal(running(), true);
@@ -178,9 +194,11 @@ assert.equal(video().props.playing, true);
 control('Go to slide 3: Memories').props.onClick();
 render();
 assert.equal(video().props.active, false, 'only the active slide is permitted to play');
+assert.equal(track.style.height, '450px', 'square footage does not inherit portrait slide whitespace');
 advance(600);
 for (const effect of effects) effect.cleanup?.();
 assert.equal(listeners.size, 0);
 assert.equal(events.size, 0);
 assert.equal(timers.size, 0);
-console.log('PASS: component visibility lifecycle, remaining time, touch versus keyboard focus, reduced motion, active video gating, event and timer cleanup.');
+assert.equal(track.style.height, '');
+console.log('PASS: visibility, remaining time, touch versus keyboard focus, reduced motion, active video, mobile height, desktop preservation, event and timer cleanup.');

@@ -76,6 +76,31 @@ export function ExperienceSection() {
     };
   }, [embla]);
 
+  useEffect(() => {
+    if (!embla) return;
+    const mobile = window.matchMedia("(max-width: 767px)");
+    const track = embla.containerNode();
+    const slides = embla.slideNodes();
+    const originalHeight = track.style.height;
+    const resize = () => {
+      // Keep native portrait/square proportions without reserving the tallest mobile slide's empty space.
+      const height = mobile.matches ? slides[embla.selectedScrollSnap()]?.getBoundingClientRect().height : 0;
+      const nextHeight = height ? `${height}px` : originalHeight;
+      if (track.style.height !== nextHeight) track.style.height = nextHeight;
+    };
+    const observer = new ResizeObserver(resize);
+    slides.forEach((slide) => observer.observe(slide));
+    embla.on("select", resize).on("reInit", resize);
+    mobile.addEventListener("change", resize);
+    resize();
+    return () => {
+      observer.disconnect();
+      embla.off("select", resize).off("reInit", resize);
+      mobile.removeEventListener("change", resize);
+      track.style.height = originalHeight;
+    };
+  }, [embla]);
+
   useEffect(() => { clockRef.current?.pause("user", userPaused); }, [userPaused]);
 
   useEffect(() => {
@@ -147,6 +172,7 @@ export function ExperienceSection() {
               >
                 <div
                   className="experience-media"
+                  style={{ "--experience-film-ratio": slide.media.kind === "video" ? slide.media.aspectRatio : 1 } as CSSProperties}
                   onClick={() => setUserPaused((paused) => !paused)}
                 >
                   <ExperienceMedia slide={slide} index={index} active={selected === index && inView} playing={inView && pageVisible && !reducedMotion} onSoundInteraction={() => setUserPaused(true)} />
