@@ -118,6 +118,15 @@ for (const reduced of [false, true]) {
 }
 
 const css = postcss.parse(fs.readFileSync('src/app/globals.css', 'utf8'));
+const declarations = (selector) => {
+  const values = new Map();
+  css.nodes.filter((node) => node.type === 'rule' && node.selector === selector).forEach((rule) => rule.walkDecls((decl) => values.set(decl.prop, decl.value)));
+  return values;
+};
+assert.equal(declarations('.theme-logo').get('mix-blend-mode'), 'screen', 'remove the supplied black matte only in Theme');
+assert.equal(declarations('.theme-inner').has('z-index'), false, 'blend against scenery, not an isolated transparent wrapper');
+assert.equal(declarations('.theme-writing-positive').get('color'), '#939f72');
+assert.equal(declarations('.theme-writing-negative').get('color'), '#b4776d');
 const motion = css.nodes.find((node) => node.type === 'atrule' && node.params === '(prefers-reduced-motion: reduce), (scripting: none)');
 assert.ok(motion);
 const finalStyles = new Map();
