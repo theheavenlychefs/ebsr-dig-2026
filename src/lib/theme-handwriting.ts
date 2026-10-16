@@ -20,23 +20,22 @@ const letters: Record<string, { width: number; strokes: string[] }> = {
 };
 
 export const themeScripture = "To live is Christ, to die is gain.";
+export const themeLead = "Before death can be gain, Christ must be life.";
 export const themeStatement = "The message of DIG is not simply about death. It is about a life so completely identified with Christ that He becomes its purpose, its substance, and its ultimate hope.";
 
 export const handwritingLines = ["To live is Christ,", "to die is gain."].map((line) => {
   let x = 0;
-  const strokes = [...line].flatMap((letter) => {
+  const strokes = line.split(/(\s+)/).flatMap((word) => [...word].flatMap((letter) => {
     if (letter === " ") { x += 15; return []; }
     const glyph = letters[letter];
     if (!glyph) throw new Error(`Missing handwriting glyph: ${letter}`);
     const position = x;
     x += glyph.width;
-    return glyph.strokes.map((path) => ({ path, x: position }));
-  });
+    const tone = /^(live|gain)\b/.test(word) ? "positive" : /^(Christ|die)\b/.test(word) ? "negative" : "neutral";
+    return glyph.strokes.map((path) => ({ path, x: position, tone }));
+  }));
   return { strokes, width: x };
 });
 
 export const writingDuration = 4600;
 export const writingStrokeCount = handwritingLines.reduce((count, line) => count + line.strokes.length, 0);
-export const typingStart = writingDuration + 400;
-export const typingInterval = 44;
-export const typingCompletion = typingStart + themeStatement.replace(/\s/g, "").length * typingInterval + 100;

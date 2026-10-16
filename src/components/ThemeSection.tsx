@@ -4,12 +4,12 @@ import Image from "next/image";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { CyclicAlphaLogo } from "./CyclicAlphaLogo";
 import { currentEdition } from "@/lib/edition";
-import { handwritingLines, themeScripture, themeStatement, writingDuration, writingStrokeCount, typingStart, typingInterval, typingCompletion } from "@/lib/theme-handwriting";
+import { handwritingLines, themeScripture, writingDuration, writingStrokeCount } from "@/lib/theme-handwriting";
+import { ThemeReflection } from "./ThemeReflection";
 
 export function ThemeSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const [entered, setEntered] = useState(false);
-  const [typingComplete, setTypingComplete] = useState(false);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -23,19 +23,7 @@ export function ThemeSection() {
     return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    if (!entered) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setTypingComplete(true);
-      return;
-    }
-    // Persist the final copy independently of long-delayed CSS animation scheduling.
-    const timer = setTimeout(() => setTypingComplete(true), typingCompletion);
-    return () => clearTimeout(timer);
-  }, [entered]);
-
   let strokeIndex = 0;
-  let characterIndex = 0;
   return (
     <section ref={sectionRef} id="theme" className="theme-section edition-scene" data-entered={entered} aria-labelledby="theme-heading">
       <div className="theme-inner">
@@ -53,19 +41,14 @@ export function ThemeSection() {
                 {handwritingLines.map((line, lineIndex) => <g key={lineIndex} transform={`translate(${(410 - line.width) / 2} ${lineIndex * 79 + 5})`}>
                   {line.strokes.map((stroke, index) => {
                     const order = strokeIndex++;
-                    return <path key={index} d={stroke.path} transform={`translate(${stroke.x} 0)`} pathLength={1} className="theme-writing-stroke" style={{ "--stroke-delay": `${order * writingDuration / writingStrokeCount}ms`, "--stroke-duration": `${writingDuration / writingStrokeCount + 20}ms` } as CSSProperties} />;
+                    return <path key={index} d={stroke.path} transform={`translate(${stroke.x} 0)`} pathLength={1} className={`theme-writing-stroke theme-writing-${stroke.tone}`} style={{ "--stroke-delay": `${order * writingDuration / writingStrokeCount}ms`, "--stroke-duration": `${writingDuration / writingStrokeCount + 20}ms` } as CSSProperties} />;
                   })}
                 </g>)}
               </svg>
             </blockquote>
             <figcaption>{currentEdition.scriptureAnchor}</figcaption>
           </figure>
-          <p className="theme-statement" data-typing-complete={typingComplete}>
-            <span className="sr-only">{themeStatement}</span>
-            <span aria-hidden="true">{themeStatement.split(/(\s+)/).map((word, wordIndex) => /^\s+$/.test(word) ? word :
-              <span key={wordIndex} className="theme-typed-word">{[...word].map((character, index) => <span key={index} className="theme-typed-character" style={{ "--character-delay": `${typingStart + characterIndex++ * typingInterval}ms` } as CSSProperties}>{character}</span>)}</span>
-            )}</span>
-          </p>
+          <ThemeReflection active={entered} />
         </div>
       </div>
     </section>

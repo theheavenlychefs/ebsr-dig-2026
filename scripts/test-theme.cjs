@@ -19,14 +19,20 @@ assert.equal(writing.handwritingLines.length, 2);
 assert.ok(writing.handwritingLines.every((line) => line.width < 400));
 assert.ok(writing.writingDuration >= 3500 && writing.writingDuration <= 5500);
 
-let entered = false, complete = false, stateIndex = 0, callback, disconnected = 0;
+assert.equal(writing.themeLead, 'Before death can be gain, Christ must be life.');
+assert.equal(writing.handwritingLines.flatMap((line) => line.strokes).filter((stroke) => stroke.tone === 'positive').length > 0, true);
+assert.equal(writing.handwritingLines.flatMap((line) => line.strokes).filter((stroke) => stroke.tone === 'negative').length > 0, true);
+let entered = false, callback, disconnected = 0;
 const effects = [];
 const timers = new Map();
-const motionPreference = { matches: false };
+let now = 0, timerId = 0;
+const scheduler = { performance: { now: () => now }, setTimeout: (fn, delay) => { timers.set(++timerId, { fn, at: now + delay }); return timerId; }, clearTimeout: (id) => timers.delete(id) };
+const typing = load('src/lib/theme-typewriter.ts', { './theme-handwriting': writing }, scheduler);
+const Reflection = function Reflection() {};
 const Logo = function Logo() {};
 const React = {
   useRef: () => ({ current: {} }),
-  useState: () => stateIndex++ === 0 ? [entered, (value) => { entered = value; }] : [complete, (value) => { complete = value; }],
+  useState: () => [entered, (value) => { entered = value; }],
   useEffect: (fn) => effects.push(fn),
 };
 class Observer {
@@ -39,9 +45,10 @@ const { ThemeSection } = load('src/components/ThemeSection.tsx', {
   'react/jsx-runtime': jsx,
   'next/image': function Image() {},
   './CyclicAlphaLogo': { CyclicAlphaLogo: Logo },
+  './ThemeReflection': { ThemeReflection: Reflection },
   '@/lib/edition': load('src/lib/edition.ts'),
   '@/lib/theme-handwriting': writing,
-}, { IntersectionObserver: Observer, window: { matchMedia: () => motionPreference }, setTimeout: (fn, delay) => { timers.set(1, { fn, delay }); return 1; }, clearTimeout: (id) => timers.delete(id) });
+}, { IntersectionObserver: Observer });
 function descendants(node, test) {
   if (!node || typeof node !== 'object') return [];
   return [...(test(node) ? [node] : []), ...[node.props?.children].flat(Infinity).flatMap((child) => descendants(child, test))];
@@ -55,12 +62,9 @@ assert.equal(entered, false);
 callback([{ isIntersecting: true }]);
 assert.equal(entered, true);
 assert.equal(disconnected, 1, 'disconnect after first entry so text does not replay');
-stateIndex = 0;
 effects.length = 0;
 tree = ThemeSection();
-const typingCleanup = effects[1]();
-assert.equal(timers.get(1).delay, writing.typingCompletion);
-assert.ok(writing.typingCompletion > 11000 && writing.typingCompletion < 12000);
+assert.equal(descendants(tree, (node) => node.type === Reflection)[0].props.active, true);
 assert.equal(descendants(tree, (node) => node.type === Logo).length, 1, 'reuse approved logo cycle');
 const paths = descendants(tree, (node) => node.type === 'path');
 assert.equal(paths.length, writing.writingStrokeCount);
@@ -69,25 +73,49 @@ paths.forEach((path, i) => {
   assert.equal(path.props.pathLength, 1);
   assert.equal(parseFloat(path.props.style['--stroke-delay']), i * writing.writingDuration / paths.length);
 });
-const chars = descendants(tree, (node) => node.props?.className === 'theme-typed-character');
-assert.equal(chars.map((node) => node.props.children).join(''), writing.themeStatement.replace(/\s/g, ''));
-assert.ok(parseFloat(chars[0].props.style['--character-delay']) > writing.writingDuration);
-timers.get(1).fn();
-stateIndex = 0;
-tree = ThemeSection();
-assert.equal(descendants(tree, (node) => node.props?.className === 'theme-statement')[0].props['data-typing-complete'], true, 'the full reflection persists independently of CSS scheduling');
-typingCleanup();
-assert.equal(timers.size, 0, 'no completion timer leaks');
-complete = false;
-motionPreference.matches = true;
-stateIndex = 0;
-effects.length = 0;
-ThemeSection();
-effects[1]();
-assert.equal(complete, true, 'reduced motion immediately persists the entire reflection');
-assert.equal(timers.size, 0, 'reduced motion requires no completion timer');
 cleanup();
 assert.equal(disconnected, 2);
+
+let visible = 0;
+const writer = typing.createThemeTypewriter((count) => { visible = count; });
+assert.equal(timers.size, 1);
+function delayedTick(time) {
+  now = time;
+  const due = [...timers].filter(([, timer]) => timer.at <= now);
+  for (const [id, timer] of due) { timers.delete(id); timer.fn(); }
+}
+delayedTick(typing.typingStart + 1000);
+assert.equal(visible, typing.typingTimeline.filter((time) => time <= 1000).length, 'late callbacks catch up without accumulating lag');
+assert.equal(timers.size, 1, 'one clock rather than an animation or timer per character');
+writer.pause(true);
+const saved = visible;
+delayedTick(now + 9000);
+assert.equal(visible, saved);
+assert.equal(timers.size, 0);
+writer.pause(false);
+delayedTick(now + typing.typingTimeline.at(-1) + 1000);
+assert.equal(visible, (writing.themeLead + writing.themeStatement).replace(/\s/g, '').length, 'both complete texts remain visible');
+assert.equal(timers.size, 0);
+writer.destroy();
+for (const reduced of [false, true]) {
+  visible = 0;
+  const reflectionEffects = [], listeners = new Map();
+  const { ThemeReflection } = load('src/components/ThemeReflection.tsx', {
+    react: { useState: () => [visible, (value) => { visible = value; }], useEffect: (fn) => reflectionEffects.push(fn) },
+    '@/lib/theme-typewriter': typing,
+  }, {
+    window: { matchMedia: () => ({ matches: reduced, addEventListener: (name, fn) => listeners.set(name, fn), removeEventListener: (name) => listeners.delete(name) }) },
+    document: { hidden: false, addEventListener: (name, fn) => listeners.set(name, fn), removeEventListener: (name) => listeners.delete(name) },
+  });
+  ThemeReflection({ active: true });
+  const dispose = reflectionEffects[0]();
+  if (reduced) assert.equal(visible, typing.typingTimeline.length, 'reduced motion reveals both texts immediately');
+  const content = ThemeReflection({ active: true });
+  const chars = descendants(content, (node) => node.props?.className === 'theme-typed-character');
+  assert.equal(chars.map((node) => node.props.children).join(''), (writing.themeLead + writing.themeStatement).replace(/\s/g, ''));
+  dispose();
+  assert.equal(timers.size + listeners.size, 0, 'all clocks and listeners are cleaned up');
+}
 
 const css = postcss.parse(fs.readFileSync('src/app/globals.css', 'utf8'));
 const motion = css.nodes.find((node) => node.type === 'atrule' && node.params === '(prefers-reduced-motion: reduce), (scripting: none)');
